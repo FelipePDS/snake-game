@@ -1,0 +1,118 @@
+html {
+    --colorBackground: #f7f7fc;
+    --colorBox: #ffffff;
+    --colorBorderBox: #2c2c3a4d;
+    --colorSnake: #14f77a;
+    --colorFood: #ee3d3d;
+    --colorButton: #21212b80;
+
+    /* --colorBackground: #262633;
+    --colorBox: #2d2d3d;
+    --colorBorderBox: #2c2c3a4d;
+    --colorSnake: #14f77a;
+    --colorFood: #ee3d3d;
+    --colorButton: #494964; */
+
+    font-size:60%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100vh;
+}
+
+body {
+    background-color: var(--colorBackground);
+
+    font-size: 140%;
+    font-weight: 500;
+    font-size: 1.6rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-top {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-top i {
+    color: var(--colorButton);
+
+    font-size: 2.5rem;
+
+    cursor: pointer;
+}
+
+.menu-top .container-set-theme .button-set-theme {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 1.1rem;
+    display: none;
+    cursor: pointer;
+}
+
+.menu-top .container-set-theme .theme-toggle {
+    width: 50px;
+    height: 30px;
+    margin-left: 1.5rem;
+    background-color: var(--colorButton);
+    border-radius: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+}
+
+.menu-top .container-set-theme .button-set-theme:checked+.theme-toggle:after {
+    left: calc(100% - 33px);
+    background-color: transparent;
+    border-right-width: 6px;
+    border-right-color: var(--colorBackground);
+    cursor: pointer;
+}
+
+.menu-top .container-set-theme .button-set-theme+.theme-toggle:after {
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.menu-top .container-set-theme .theme-toggle:after {
+    width: 22px;
+    height: 22px;
+    display: block;
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    background-color: var(--colorBackground);
+    border-radius: 50%;
+    border: 0px solid var(--colorBorderBox);
+    cursor: pointer;
+}
+
+#box {
+    width: 500px;
+    height: 500px;
+
+    background-color: var(--colorBox);
+    border: 2px var(--colorBorderBox) solid;
+    border-radius: 1%;
+
+    box-shadow: 3px 3px 11px 3px rgba(0, 0, 0, .15);
+}
