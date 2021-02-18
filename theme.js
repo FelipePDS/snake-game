@@ -6,7 +6,7 @@ const themes = {
             colorBorderBox: '#2c2c3a1c',
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
-            colorButton: '#37ee89'
+            colorButton: '#51b0fd'
         },
     
         dark: {
@@ -15,7 +15,7 @@ const themes = {
             colorBorderBox: '#2c2c3a4d',
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
-            colorButton: '#37ee89'
+            colorButton: '#51b0fd'
         }
     },
 

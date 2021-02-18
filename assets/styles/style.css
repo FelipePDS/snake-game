@@ -4,14 +4,14 @@ html {
     --colorBorderBox: #2c2c3a1c;
     --colorSnake: #3cfd93;
     --colorFood: #f36565;
-    --colorButton: #37ee89;
+    --colorButton: #51b0fd;
 
     /* --colorBackground: #262633;
     --colorBox: #2d2d3d;
     --colorBorderBox: #2c2c3a4d;
     --colorSnake: #3cfd93;
     --colorFood: #f36565;
-    --colorButton: #37ee89; */
+    --colorButton: #51b0fd; */
 
     font-size:60%;
 }
