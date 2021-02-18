@@ -1,38 +1,42 @@
 const themes = {
-    light: {
-        colorBackground: '#f7f7fc',
-        colorBox: '#ffffff',
-        colorBorderBox: '#2c2c3a4d',
-        colorSnake: '#14f77a',
-        colorFood: '#ee3d3d',
-        colorButton: '#21212b80'
+    mode : {
+        light: {
+            colorBackground: '#f4f4f8',
+            colorBox: '#ffffff',
+            colorBorderBox: '#2c2c3a1c',
+            colorSnake: '#3cfd93',
+            colorFood: '#f36565',
+            colorButton: '#37ee89'
+        },
+    
+        dark: {
+            colorBackground: '#262633',
+            colorBox: '#2d2d3d',
+            colorBorderBox: '#2c2c3a4d',
+            colorSnake: '#3cfd93',
+            colorFood: '#f36565',
+            colorButton: '#37ee89'
+        }
     },
 
-    dark: {
-        colorBackground: '#262633',
-        colorBox: '#2d2d3d',
-        colorBorderBox: '#2c2c3a4d',
-        colorSnake: '#14f77a',
-        colorFood: '#ee3d3d',
-        colorButton: '#494964'
+    buttons: {
+        containerSetTheme: document.querySelector('.container-set-theme'),
+        buttonSetTheme: document.querySelector('.button-set-theme')
     }
 }
 
-const containerSetTheme = document.querySelector('.container-set-theme')
-const buttonSetTheme = document.querySelector('.button-set-theme')
-
 function setTheme(newTheme) {
-    const theme = themes[newTheme]
+    const theme = themes.mode[newTheme]
 
     Object.keys(theme).map((key) => {
         document.querySelector('html').style.setProperty(`--${key}`, theme[key])
     })
 }
 
-containerSetTheme.addEventListener('click', () => {
-    localStorage.setItem('Theme', buttonSetTheme.checked ? 'dark' : 'light')
+themes.buttons.containerSetTheme.addEventListener('click', () => {
+    localStorage.setItem('Theme', themes.buttons.buttonSetTheme.checked ? 'dark' : 'light')
     setTheme(localStorage.Theme)
 })
 
 setTheme(localStorage.Theme)
-localStorage.Theme === 'dark' ? buttonSetTheme.checked = true : buttonSetTheme.checked = false
+localStorage.Theme === 'dark' ? themes.buttons.buttonSetTheme.checked = true : themes.buttons.buttonSetTheme.checked = false

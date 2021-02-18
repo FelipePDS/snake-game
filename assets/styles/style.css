@@ -1,17 +1,17 @@
 html {
-    --colorBackground: #f7f7fc;
+    --colorBackground: #f4f4f8;
     --colorBox: #ffffff;
-    --colorBorderBox: #2c2c3a4d;
-    --colorSnake: #14f77a;
-    --colorFood: #ee3d3d;
-    --colorButton: #21212b80;
+    --colorBorderBox: #2c2c3a1c;
+    --colorSnake: #3cfd93;
+    --colorFood: #f36565;
+    --colorButton: #37ee89;
 
     /* --colorBackground: #262633;
     --colorBox: #2d2d3d;
     --colorBorderBox: #2c2c3a4d;
-    --colorSnake: #14f77a;
-    --colorFood: #ee3d3d;
-    --colorButton: #494964; */
+    --colorSnake: #3cfd93;
+    --colorFood: #f36565;
+    --colorButton: #37ee89; */
 
     font-size:60%;
 }
@@ -107,8 +107,8 @@ body {
 }
 
 #box {
-    width: 500px;
-    height: 500px;
+    width: 800px;
+    height: 400px;
 
     background-color: var(--colorBox);
     border: 2px var(--colorBorderBox) solid;
