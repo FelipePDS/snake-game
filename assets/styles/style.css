@@ -4,14 +4,16 @@ html {
     --colorBorderBox: #2c2c3a1c;
     --colorSnake: #3cfd93;
     --colorFood: #f36565;
-    --colorButton: #51b0fd;
+    --colorButtonPrimary: #3cfd93;
+    --colorButtonSecondary: #f36565;
 
     /* --colorBackground: #262633;
     --colorBox: #2d2d3d;
     --colorBorderBox: #2c2c3a4d;
     --colorSnake: #3cfd93;
     --colorFood: #f36565;
-    --colorButton: #51b0fd; */
+    --colorButtonPrimary: #25c080;
+    --colorButtonSecondary: #e05b5b; */
 
     font-size:60%;
 }
@@ -49,8 +51,8 @@ body {
     align-items: center;
 }
 
-.menu-top i {
-    color: var(--colorButton);
+.menu-top .fa-pause {
+    color: var(--colorButtonPrimary);
 
     font-size: 2.5rem;
 
@@ -65,11 +67,26 @@ body {
     cursor: pointer;
 }
 
+.menu-top .fa-apple-alt {
+    color: var(--colorButtonSecondary);
+
+    font-size: 3.5rem;
+
+    margin-left: 3rem;
+}
+
+.menu-top .ponctuation {
+    color: var(--colorButtonSecondary);
+    font-size: 1.8rem;
+
+    margin-left: .2rem;
+}
+
 .menu-top .container-set-theme .theme-toggle {
     width: 50px;
     height: 30px;
     margin-left: 1.5rem;
-    background-color: var(--colorButton);
+    background-color: var(--colorButtonPrimary);
     border-radius: 15px;
     display: -webkit-box;
     display: -ms-flexbox;

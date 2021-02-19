@@ -1,12 +1,13 @@
 const themes = {
-    mode : {
+    modes : {
         light: {
             colorBackground: '#f4f4f8',
             colorBox: '#ffffff',
             colorBorderBox: '#2c2c3a1c',
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
-            colorButton: '#51b0fd'
+            colorButtonPrimary: '#3cfd93',
+            colorButtonSecondary: '#f36565'
         },
     
         dark: {
@@ -15,7 +16,8 @@ const themes = {
             colorBorderBox: '#2c2c3a4d',
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
-            colorButton: '#51b0fd'
+            colorButtonPrimary: '#25c080',
+            colorButtonSecondary: '#e05b5b'
         }
     },
 
@@ -26,7 +28,7 @@ const themes = {
 }
 
 function setTheme(newTheme) {
-    const theme = themes.mode[newTheme]
+    const theme = themes.modes[newTheme]
 
     Object.keys(theme).map((key) => {
         document.querySelector('html').style.setProperty(`--${key}`, theme[key])
