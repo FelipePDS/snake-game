@@ -13,7 +13,8 @@ const game = {
     entities: {
         box: {
             limitX: 40,
-            limitY: 33
+            limitY: 33,
+            collapse: false
         },
         
         player: {
@@ -51,6 +52,15 @@ const game = {
                 height: 0
             }
         }
+    },
+
+    commands: {
+        moveUp: 'ArrowUp',
+        moveDown: 'ArrowDown',
+        moveRight: 'ArrowRight',
+        moveLeft: 'ArrowLeft',
+
+        pause: 'Esc'
     }
 }
 
@@ -58,7 +68,3 @@ const game = {
 
 game.global.box.width = 1200
 game.global.box.height = 990
-
-const player = game.entities.player
-game.global.context.fillStyle = player.styles.color
-game.global.context.fillRect(player.position.x, player.position.y, player.styles.width, player.styles.height)
