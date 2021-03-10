@@ -131,7 +131,7 @@ body {
 
 #box {
     width: 600px;
-    height: 500px;
+    height: 495px;
 
     background-color: var(--colorBox);
     border: 2px var(--colorBorderBox) solid;
