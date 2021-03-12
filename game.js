@@ -7,8 +7,22 @@ const game = {
 
     status: {
         buttonStatusGame: document.querySelector('#statusGame'),
-        paused: true,
-        gameOver: false
+        paused: false,
+        gameOver: false,
+
+        gamePausedContainer: document.querySelector('.game-paused'),
+
+        pause: (status) => {
+            if (status.paused) {
+                status.paused = false
+                status.buttonStatusGame.setAttribute('class', 'fa fa-pause')
+                status.gamePausedContainer.style.display = 'none'
+            } else {
+                status.paused = true
+                status.buttonStatusGame.setAttribute('class', 'fa fa-play')
+                status.gamePausedContainer.style.display = 'flex'
+            }
+        }
     },
 
 
@@ -35,8 +49,6 @@ const game = {
             tail: {
                 trail: [],
 
-                length: 0,
-
                 collapse: true
             },
 
@@ -48,7 +60,7 @@ const game = {
                 height: 30
             },
 
-            commands: {
+            events: {
                 renderPlayer: (player) => {
                     game.global.context.fillStyle = player.styles.color
                     game.global.context.fillRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
@@ -61,28 +73,30 @@ const game = {
                 crawl: (player) => {
                     setInterval(() => {
 
+                        if (game.status.paused) { return null }
+
                         if (player.head.direction === 'up') {
-                            player.commands.clearPlayer(player)
+                            player.events.clearPlayer(player)
                             player.head.position.y -= player.styles.height
-                            player.commands.renderPlayer(player)
+                            player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'right') {
-                            player.commands.clearPlayer(player)
+                            player.events.clearPlayer(player)
                             player.head.position.x += player.styles.height
-                            player.commands.renderPlayer(player)
+                            player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'down') {
-                            player.commands.clearPlayer(player)
+                            player.events.clearPlayer(player)
                             player.head.position.y += player.styles.height
-                            player.commands.renderPlayer(player)
+                            player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'left') {
-                            player.commands.clearPlayer(player)
+                            player.events.clearPlayer(player)
                             player.head.position.x -= player.styles.height
-                            player.commands.renderPlayer(player)
+                            player.events.renderPlayer(player)
                         }
 
                     }, player.speedLevel * 10);
@@ -91,6 +105,8 @@ const game = {
                 movePlayer: (player) => {
                     window.addEventListener('keydown', (event) => {
                         const keyName = event.key
+
+                        if (game.status.paused) { return null }
                 
                         if (keyName === game.commands.moveUp && player.head.direction !== 'down') { player.head.direction = 'up' }
 
@@ -100,20 +116,34 @@ const game = {
 
                         if (keyName === game.commands.moveLeft && player.head.direction !== 'right') { player.head.direction = 'left' }
                     })
+                },
+                
+                eat: (player, food) => {
+                    setInterval(() => {
+
+                        if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
+                            food.generated = false
+                        }
+
+                    }, player.speedLevel * 10);
                 }
             },
 
             ponctuation: {
                 content: document.querySelector('.ponctuation'),
-                value: 1
+                value: () => {
+                    return game.entities.player.tail.trail
+                },
+
+                record: 0
             }
         },
 
 
         food: {
             position: {
-                x: 100,
-                y: 100
+                x: 90,
+                y: 90
             },
 
             styles: {
@@ -122,7 +152,30 @@ const game = {
                 height: 30
             },
 
-            generated: true
+            generated: true,
+
+            events: {
+                renderFood: (food) => {
+                    game.global.context.fillStyle = food.styles.color
+                    game.global.context.fillRect(food.position.x, food.position.y, food.styles.width, food.styles.height)
+                },
+
+                generateFood: (food) => {
+                    setInterval(() => {
+                        if (food.generated) { return null }
+
+                        let generatePositionX = Math.floor(Math.random() * game.global.box.width)
+                        food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
+
+                        let generatePositionY = Math.floor(Math.random() * game.global.box.height)
+                        food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
+
+                        food.events.renderFood(food)
+
+                        food.generated = true
+                    }, 100);
+                }
+            }
         }
     },
 
@@ -133,7 +186,7 @@ const game = {
         moveDown: 'ArrowDown',
         moveLeft: 'ArrowLeft',
 
-        pause: 'Esc'
+        pause: 'Escape'
     }
 }
 
@@ -142,7 +195,23 @@ const game = {
 game.global.box.width = 1200
 game.global.box.height = 990
 
+
 const player = game.entities.player
-player.commands.renderPlayer(player)
-player.commands.crawl(player)
-player.commands.movePlayer(player)
+player.events.renderPlayer(player)
+player.events.crawl(player)
+player.events.movePlayer(player)
+player.events.eat(player, game.entities.food)
+
+
+const food = game.entities.food
+food.events.renderFood(food)
+food.events.generateFood(food)
+
+
+const status = game.status
+status.buttonStatusGame.addEventListener('click', () => {
+    status.pause(status)
+})
+window.addEventListener('keyup', (event) => {
+    if (event.key === game.commands.pause) { status.pause(status) }
+})
