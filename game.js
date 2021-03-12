@@ -7,7 +7,7 @@ const game = {
 
     status: {
         buttonStatusGame: document.querySelector('#statusGame'),
-        pause: true,
+        paused: true,
         gameOver: false
     },
 
@@ -23,11 +23,13 @@ const game = {
         player: {
             head: {
                 position: {
-                    x: 585,
-                    y: 485
+                    x: 570,
+                    y: 480
                 },
                 
-                length: 1
+                length: 1,
+
+                direction: ''
             },
 
             tail: {
@@ -38,20 +40,12 @@ const game = {
                 collapse: true
             },
 
-            velocity: {
-                x: 0,
-                y: 0
-            },
+            speedLevel: 10,
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorSnake}`,
                 width: 30,
                 height: 30
-            },
-
-            ponctuation: {
-                content: document.querySelector('.ponctuation'),
-                value: 1
             },
 
             commands: {
@@ -64,35 +58,54 @@ const game = {
                     game.global.context.clearRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
                 },
 
-                movePlayer: (player) => {
-                    window.addEventListener('keydown', (event) => {
-                        const keyName = event.key
-                
-                        if (keyName === game.commands.moveUp) {
+                crawl: (player) => {
+                    setInterval(() => {
+
+                        if (player.head.direction === 'up') {
                             player.commands.clearPlayer(player)
                             player.head.position.y -= player.styles.height
                             player.commands.renderPlayer(player)
                         }
 
-                        if (keyName === game.commands.moveRight) {
+                        if (player.head.direction === 'right') {
                             player.commands.clearPlayer(player)
                             player.head.position.x += player.styles.height
                             player.commands.renderPlayer(player)
                         }
 
-                        if (keyName === game.commands.moveDown) {
+                        if (player.head.direction === 'down') {
                             player.commands.clearPlayer(player)
                             player.head.position.y += player.styles.height
                             player.commands.renderPlayer(player)
                         }
 
-                        if (keyName === game.commands.moveLeft) {
+                        if (player.head.direction === 'left') {
                             player.commands.clearPlayer(player)
                             player.head.position.x -= player.styles.height
                             player.commands.renderPlayer(player)
                         }
+
+                    }, player.speedLevel * 10);
+                },
+
+                movePlayer: (player) => {
+                    window.addEventListener('keydown', (event) => {
+                        const keyName = event.key
+                
+                        if (keyName === game.commands.moveUp && player.head.direction !== 'down') { player.head.direction = 'up' }
+
+                        if (keyName === game.commands.moveRight && player.head.direction !== 'left') { player.head.direction = 'right' }
+
+                        if (keyName === game.commands.moveDown && player.head.direction !== 'up') { player.head.direction = 'down' }
+
+                        if (keyName === game.commands.moveLeft && player.head.direction !== 'right') { player.head.direction = 'left' }
                     })
                 }
+            },
+
+            ponctuation: {
+                content: document.querySelector('.ponctuation'),
+                value: 1
             }
         },
 
@@ -105,8 +118,8 @@ const game = {
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorFood}`,
-                width: 0,
-                height: 0
+                width: 30,
+                height: 30
             },
 
             generated: true
@@ -129,5 +142,7 @@ const game = {
 game.global.box.width = 1200
 game.global.box.height = 990
 
-game.entities.player.commands.renderPlayer(game.entities.player)
-game.entities.player.commands.movePlayer(game.entities.player)
+const player = game.entities.player
+player.commands.renderPlayer(player)
+player.commands.crawl(player)
+player.commands.movePlayer(player)
