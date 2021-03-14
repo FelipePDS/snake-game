@@ -6,6 +6,8 @@ const game = {
 
 
     status: {
+        run: false,
+
         buttonStatusGame: document.querySelector('#statusGame'),
         paused: false,
         gamePausedContainer: document.querySelector('.game-paused-container'),
@@ -83,6 +85,26 @@ const game = {
                 },
 
                 crawl: (player) => {
+                    function setPositionHead(axisChanged, axisIncreases) {
+                        axisIncreases ? player.head.position[axisChanged] += player.styles.height : player.head.position[axisChanged] -= player.styles.height
+                    }
+
+                    function setPositionTail(axisChanged, headAxis, axisIncreases) {
+                        for (let i = player.tail.trail.length - 1; i >= 0; i--) {
+                            if (i > 0) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
+                            } else {
+                                player.tail.trail[0].position[headAxis] = player.head.position[headAxis]
+                                if (axisIncreases) {
+                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] + player.styles.height + 1
+                                } else {
+                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] - player.styles.height - 1
+                                }
+                            }
+                        }
+                    }
+
                     setInterval(() => {
 
                         if (game.status.paused) { return null }
@@ -90,14 +112,9 @@ const game = {
                         if (player.head.direction === 'up') {
                             player.events.clearPlayer(player)
 
-                            player.head.position.y -= player.styles.height
+                            setPositionHead('y', false)
 
-                            player.tail.trail[0].position.x = player.head.position.x
-                            player.tail.trail[0].position.y = player.head.position.y + player.styles.height + 1
-                            for (let i = 1; i < player.tail.trail.length; i++) {
-                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
-                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y + player.styles.height + 1
-                            }
+                            setPositionTail('y', 'x', true)
 
                             player.events.renderPlayer(player)
                         }
@@ -105,14 +122,9 @@ const game = {
                         if (player.head.direction === 'right') {
                             player.events.clearPlayer(player)
 
-                            player.head.position.x += player.styles.height
+                            setPositionHead('x', true)
 
-                            player.tail.trail[0].position.x = player.head.position.x - player.styles.height - 1
-                            player.tail.trail[0].position.y = player.head.position.y
-                            for (let i = 1; i < player.tail.trail.length; i++) {
-                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x - player.styles.height - 1
-                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
-                            }
+                            setPositionTail('x', 'y', false)
 
                             player.events.renderPlayer(player)
                         }
@@ -120,14 +132,9 @@ const game = {
                         if (player.head.direction === 'down') {
                             player.events.clearPlayer(player)
 
-                            player.head.position.y += player.styles.height
+                            setPositionHead('y', true)
 
-                            player.tail.trail[0].position.x = player.head.position.x
-                            player.tail.trail[0].position.y = player.head.position.y - player.styles.height - 1
-                            for (let i = 1; i < player.tail.trail.length; i++) {
-                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
-                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y - player.styles.height - 1
-                            }
+                            setPositionTail('y', 'x', false)
 
                             player.events.renderPlayer(player)
                         }
@@ -135,14 +142,9 @@ const game = {
                         if (player.head.direction === 'left') {
                             player.events.clearPlayer(player)
 
-                            player.head.position.x -= player.styles.height
+                            setPositionHead('x', false)
 
-                            player.tail.trail[0].position.x = player.head.position.x + player.styles.height + 1
-                            player.tail.trail[0].position.y = player.head.position.y
-                            for (let i = 1; i < player.tail.trail.length; i++) {
-                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x + player.styles.height + 1
-                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
-                            }
+                            setPositionTail('x', 'y', true)
 
                             player.events.renderPlayer(player)
                         }
@@ -152,9 +154,9 @@ const game = {
 
                 movePlayer: (player) => {
                     window.addEventListener('keydown', (event) => {
-                        const keyName = event.key
-
                         if (game.status.paused) { return null }
+
+                        const keyName = event.key
                 
                         if (keyName === game.commands.moveUp && player.head.direction !== 'down') { player.head.direction = 'up' }
 
@@ -260,8 +262,8 @@ game.global.box.height = 990
 
 const player = game.entities.player
 player.events.renderPlayer(player)
-player.events.crawl(player)
 player.events.movePlayer(player)
+player.events.crawl(player)
 player.events.eat(player, game.entities.food)
 
 
