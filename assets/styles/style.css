@@ -2,7 +2,8 @@ html {
     --colorBackground: #f4f4f8;
     --colorBox: #ffffff;
     --colorBorderBox: #2c2c3a1c;
-    --colorSnake: #3cfd93;
+    --colorSnake: #81f7b6;
+    --colorHead: #3cfd93;
     --colorFood: #f36565;
     --colorButtonPrimary: #3cfd93;
     --colorButtonSecondary: #f36565;
@@ -12,6 +13,7 @@ html {
     --colorBox: #2d2d3d;
     --colorBorderBox: #2c2c3a4d;
     --colorSnake: #3cfd93;
+    --colorHead: #81f7b6;
     --colorFood: #f36565;
     --colorButtonPrimary: #25c080;
     --colorButtonSecondary: #e05b5b;
@@ -153,8 +155,8 @@ body {
 }
 
 #box {
-    width: 600px;
-    height: 495px;
+    width: 420px;
+    height: 420px;
 
     background-color: var(--colorBox);
     border: 2px var(--colorBorderBox) solid;

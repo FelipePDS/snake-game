@@ -62,16 +62,18 @@ const game = {
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorSnake}`,
+                colorHead: `${themes.modes[localStorage.Theme].colorHead}`,
                 width: 30,
                 height: 30
             },
 
             events: {
                 renderPlayer: (player) => {
-                    game.global.context.fillStyle = player.styles.color
+                    game.global.context.fillStyle = player.styles.colorHead
                     game.global.context.fillRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
 
                     for (let i in player.tail.trail) {
+                        game.global.context.fillStyle = player.styles.color
                         game.global.context.fillRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                     }
                 },
@@ -82,74 +84,6 @@ const game = {
                     for (let i in player.tail.trail) {
                         game.global.context.clearRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                     }
-                },
-
-                crawl: (player) => {
-                    function setPositionHead(axisChanged, axisIncreases) {
-                        axisIncreases ? player.head.position[axisChanged] += player.styles.height : player.head.position[axisChanged] -= player.styles.height
-                    }
-
-                    function setPositionTail(axisChanged, headAxis, axisIncreases) {
-                        for (let i = player.tail.trail.length - 1; i >= 0; i--) {
-                            if (i > 0) {
-                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
-                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
-                            } else {
-                                player.tail.trail[0].position[headAxis] = player.head.position[headAxis]
-                                if (axisIncreases) {
-                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] + player.styles.height + 1
-                                } else {
-                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] - player.styles.height - 1
-                                }
-                            }
-                        }
-                    }
-
-                    setInterval(() => {
-
-                        if (game.status.paused) { return null }
-
-                        if (player.head.direction === 'up') {
-                            player.events.clearPlayer(player)
-
-                            setPositionHead('y', false)
-
-                            setPositionTail('y', 'x', true)
-
-                            player.events.renderPlayer(player)
-                        }
-
-                        if (player.head.direction === 'right') {
-                            player.events.clearPlayer(player)
-
-                            setPositionHead('x', true)
-
-                            setPositionTail('x', 'y', false)
-
-                            player.events.renderPlayer(player)
-                        }
-
-                        if (player.head.direction === 'down') {
-                            player.events.clearPlayer(player)
-
-                            setPositionHead('y', true)
-
-                            setPositionTail('y', 'x', false)
-
-                            player.events.renderPlayer(player)
-                        }
-
-                        if (player.head.direction === 'left') {
-                            player.events.clearPlayer(player)
-
-                            setPositionHead('x', false)
-
-                            setPositionTail('x', 'y', true)
-
-                            player.events.renderPlayer(player)
-                        }
-
-                    }, player.speedLevel * 10);
                 },
 
                 movePlayer: (player) => {
@@ -167,36 +101,109 @@ const game = {
                         if (keyName === game.commands.moveLeft && player.head.direction !== 'right') { player.head.direction = 'left' }
                     })
                 },
-                
-                eat: (player, food) => {
-                    setInterval(() => {
 
-                        if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
-                            food.generated = false
+                crawl: (player) => {
+                    function setPositionHead(axisChanged, axisIncreases) {
+                        axisIncreases ? player.head.position[axisChanged] += player.styles.height : player.head.position[axisChanged] -= player.styles.height
+                    }
 
-                            let lastTailPosition = player.tail.trail.length - 1
-                            player.tail.trail.push({
-                                position: {
-                                    x: player.tail.trail[lastTailPosition].position.x,
-                                    y: player.tail.trail[lastTailPosition].position.y
+                    function setPositionTail(axisChanged, headAxis, axisIncreases) {
+                        for (let i = player.tail.trail.length - 1; i >= 0; i--) {
+                            if (i > 0) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
+                            } else {
+                                player.tail.trail[0].position[headAxis] = player.head.position[headAxis]
+                                if (axisIncreases) {
+                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] + player.styles.height
+                                } else {
+                                    player.tail.trail[0].position[axisChanged] = player.head.position[axisChanged] - player.styles.height
                                 }
-                            })
+                            }
+                        }
+                    }
 
-                            player.ponctuation.show()
+                    setInterval(() => {
+                        if (game.status.paused) { return null }
+
+                        if (player.head.direction === 'up') {
+                            player.events.clearPlayer(player)
+
+                            setPositionHead('y', false)
+                            setPositionTail('y', 'x', true)
+
+                            player.events.renderPlayer(player)
                         }
 
+                        if (player.head.direction === 'right') {
+                            player.events.clearPlayer(player)
+
+                            setPositionHead('x', true)
+                            setPositionTail('x', 'y', false)
+
+                            player.events.renderPlayer(player)
+                        }
+
+                        if (player.head.direction === 'down') {
+                            player.events.clearPlayer(player)
+
+                            setPositionHead('y', true)
+                            setPositionTail('y', 'x', false)
+
+                            player.events.renderPlayer(player)
+                        }
+
+                        if (player.head.direction === 'left') {
+                            player.events.clearPlayer(player)
+
+                            setPositionHead('x', false)
+                            setPositionTail('x', 'y', true)
+
+                            player.events.renderPlayer(player)
+                        }
+                    }, player.speedLevel * 10);
+                },
+                
+                eat: (player, food) => {
+                    function increaseTail() {
+                        let lastTailPosition = player.tail.trail.length - 1
+                        player.tail.trail.push({
+                            position: {
+                                x: player.tail.trail[lastTailPosition].position.x,
+                                y: player.tail.trail[lastTailPosition].position.y
+                            }
+                        })
+                    }
+
+                    setInterval(() => {
+                        if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
+                            food.generated = false
+                            increaseTail()
+                            player.ponctuation.show()
+                        }
                     }, player.speedLevel * 10);
                 }
             },
 
             ponctuation: {
                 content: document.querySelector('.ponctuation'),
+
                 value: () => {
                     return game.entities.player.tail.trail.length
                 },
 
                 show: () => {
-                    game.entities.player.ponctuation.content.innerHTML = `${game.entities.player.ponctuation.value()}pts`
+                    if (game.entities.player.ponctuation.value() < 10) {
+                        game.entities.player.ponctuation.content.innerHTML = `00${game.entities.player.ponctuation.value()}pts`
+                    } 
+                    
+                    else if (game.entities.player.ponctuation.value() < 100) {
+                        game.entities.player.ponctuation.content.innerHTML = `0${game.entities.player.ponctuation.value()}pts`
+                    }
+
+                    else if (game.entities.player.ponctuation.value() >= 100) {
+                        game.entities.player.ponctuation.content.innerHTML = `${game.entities.player.ponctuation.value()}pts`
+                    }
                 },
 
                 record: 0
@@ -228,12 +235,23 @@ const game = {
                     setInterval(() => {
                         if (food.generated) { return null }
 
-                        let generatePositionX = Math.floor(Math.random() * game.global.box.width)
-                        food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
+                        function newPosition() {
+                            let generatePositionX = Math.floor(Math.random() * game.global.box.width)
+                            food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
 
-                        let generatePositionY = Math.floor(Math.random() * game.global.box.height)
-                        food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
+                            let generatePositionY = Math.floor(Math.random() * game.global.box.height)
+                            food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
+                        }
 
+                        newPosition()
+
+                        for (let i in game.entities.player.tail.trail) {
+                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y) {
+                                newPosition()
+                                i = -1
+                            }
+                        }
+                        
                         food.events.renderFood(food)
 
                         food.generated = true
@@ -256,8 +274,8 @@ const game = {
 
 // ======================== // ======================== //
 
-game.global.box.width = 1200
-game.global.box.height = 990
+game.global.box.width = 840
+game.global.box.height = 840
 
 
 const player = game.entities.player
