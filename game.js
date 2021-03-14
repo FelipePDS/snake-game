@@ -8,10 +8,7 @@ const game = {
     status: {
         buttonStatusGame: document.querySelector('#statusGame'),
         paused: false,
-        gameOver: false,
-
-        gamePausedContainer: document.querySelector('.game-paused'),
-
+        gamePausedContainer: document.querySelector('.game-paused-container'),
         pause: (status) => {
             if (status.paused) {
                 status.paused = false
@@ -22,7 +19,9 @@ const game = {
                 status.buttonStatusGame.setAttribute('class', 'fa fa-play')
                 status.gamePausedContainer.style.display = 'flex'
             }
-        }
+        },
+
+        gameOver: false
     },
 
 
@@ -37,8 +36,8 @@ const game = {
         player: {
             head: {
                 position: {
-                    x: 570,
-                    y: 480
+                    x: 600,
+                    y: 600
                 },
                 
                 length: 1,
@@ -47,7 +46,12 @@ const game = {
             },
 
             tail: {
-                trail: [],
+                trail: [{
+                    position: {
+                        x: Number,
+                        y: Number
+                    }
+                }],
 
                 collapse: true
             },
@@ -64,10 +68,18 @@ const game = {
                 renderPlayer: (player) => {
                     game.global.context.fillStyle = player.styles.color
                     game.global.context.fillRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
+
+                    for (let i in player.tail.trail) {
+                        game.global.context.fillRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
+                    }
                 },
 
                 clearPlayer: (player) => {
                     game.global.context.clearRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
+
+                    for (let i in player.tail.trail) {
+                        game.global.context.clearRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
+                    }
                 },
 
                 crawl: (player) => {
@@ -77,25 +89,61 @@ const game = {
 
                         if (player.head.direction === 'up') {
                             player.events.clearPlayer(player)
+
                             player.head.position.y -= player.styles.height
+
+                            player.tail.trail[0].position.x = player.head.position.x
+                            player.tail.trail[0].position.y = player.head.position.y + player.styles.height + 1
+                            for (let i = 1; i < player.tail.trail.length; i++) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y + player.styles.height + 1
+                            }
+
                             player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'right') {
                             player.events.clearPlayer(player)
+
                             player.head.position.x += player.styles.height
+
+                            player.tail.trail[0].position.x = player.head.position.x - player.styles.height - 1
+                            player.tail.trail[0].position.y = player.head.position.y
+                            for (let i = 1; i < player.tail.trail.length; i++) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x - player.styles.height - 1
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
+                            }
+
                             player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'down') {
                             player.events.clearPlayer(player)
+
                             player.head.position.y += player.styles.height
+
+                            player.tail.trail[0].position.x = player.head.position.x
+                            player.tail.trail[0].position.y = player.head.position.y - player.styles.height - 1
+                            for (let i = 1; i < player.tail.trail.length; i++) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y - player.styles.height - 1
+                            }
+
                             player.events.renderPlayer(player)
                         }
 
                         if (player.head.direction === 'left') {
                             player.events.clearPlayer(player)
+
                             player.head.position.x -= player.styles.height
+
+                            player.tail.trail[0].position.x = player.head.position.x + player.styles.height + 1
+                            player.tail.trail[0].position.y = player.head.position.y
+                            for (let i = 1; i < player.tail.trail.length; i++) {
+                                player.tail.trail[i].position.x = player.tail.trail[i-1].position.x + player.styles.height + 1
+                                player.tail.trail[i].position.y = player.tail.trail[i-1].position.y
+                            }
+
                             player.events.renderPlayer(player)
                         }
 
@@ -123,6 +171,16 @@ const game = {
 
                         if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
                             food.generated = false
+
+                            let lastTailPosition = player.tail.trail.length - 1
+                            player.tail.trail.push({
+                                position: {
+                                    x: player.tail.trail[lastTailPosition].position.x,
+                                    y: player.tail.trail[lastTailPosition].position.y
+                                }
+                            })
+
+                            player.ponctuation.show()
                         }
 
                     }, player.speedLevel * 10);
@@ -132,7 +190,11 @@ const game = {
             ponctuation: {
                 content: document.querySelector('.ponctuation'),
                 value: () => {
-                    return game.entities.player.tail.trail
+                    return game.entities.player.tail.trail.length
+                },
+
+                show: () => {
+                    game.entities.player.ponctuation.content.innerHTML = `${game.entities.player.ponctuation.value()}pts`
                 },
 
                 record: 0

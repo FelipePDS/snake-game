@@ -7,7 +7,8 @@ const themes = {
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
             colorButtonPrimary: '#3cfd93',
-            colorButtonSecondary: '#f36565'
+            colorButtonSecondary: '#f36565',
+            colorMessage: '#ffeb33'
         },
     
         dark: {
@@ -17,7 +18,8 @@ const themes = {
             colorSnake: '#3cfd93',
             colorFood: '#f36565',
             colorButtonPrimary: '#25c080',
-            colorButtonSecondary: '#e05b5b'
+            colorButtonSecondary: '#e05b5b',
+            colorMessage: '#ffd700'
         }
     },
 
