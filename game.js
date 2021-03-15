@@ -5,6 +5,7 @@ const game = {
     },
 
 
+
     status: {
         run: false,
 
@@ -27,12 +28,23 @@ const game = {
     },
 
 
+
     entities: {
         box: {
             limitX: 40,
             limitY: 33,
-            collapse: false
+            collapse: false,
+
+            events: {
+                renderBox: () => {
+                    game.global.context.fillStyle = `${themes.modes[localStorage.Theme].colorBox}`
+                    game.global.context.fillRect(0, 0, game.global.box.width, game.global.box.height)
+                    game.entities.player.events.renderPlayer(game.entities.player)
+                    game.entities.food.events.renderFood(game.entities.food)
+                }
+            }
         },
+
 
         
         player: {
@@ -71,10 +83,12 @@ const game = {
                 renderPlayer: (player) => {
                     game.global.context.fillStyle = player.styles.colorHead
                     game.global.context.fillRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
+                    game.global.context.strokeStyle = `${themes.modes[localStorage.Theme].colorBox}`
+                    game.global.context.strokeRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
 
                     for (let i in player.tail.trail) {
-                        game.global.context.fillStyle = player.styles.color
                         game.global.context.fillRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
+                        game.global.context.strokeRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                     }
                 },
 
@@ -92,13 +106,13 @@ const game = {
 
                         const keyName = event.key
                 
-                        if (keyName === game.commands.moveUp && player.head.direction !== 'down') { player.head.direction = 'up' }
+                        if (game.commands.moveUp.indexOf(keyName) > -1 && player.head.direction !== 'down') { player.head.direction = 'up' }
 
-                        if (keyName === game.commands.moveRight && player.head.direction !== 'left') { player.head.direction = 'right' }
+                        if (game.commands.moveRight.indexOf(keyName) > -1 && player.head.direction !== 'left') { player.head.direction = 'right' }
 
-                        if (keyName === game.commands.moveDown && player.head.direction !== 'up') { player.head.direction = 'down' }
+                        if (game.commands.moveDown.indexOf(keyName) > -1 && player.head.direction !== 'up') { player.head.direction = 'down' }
 
-                        if (keyName === game.commands.moveLeft && player.head.direction !== 'right') { player.head.direction = 'left' }
+                        if (game.commands.moveLeft.indexOf(keyName) > -1 && player.head.direction !== 'right') { player.head.direction = 'left' }
                     })
                 },
 
@@ -211,6 +225,7 @@ const game = {
         },
 
 
+
         food: {
             position: {
                 x: 90,
@@ -246,9 +261,9 @@ const game = {
                         newPosition()
 
                         for (let i in game.entities.player.tail.trail) {
-                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y) {
+                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y || food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
                                 newPosition()
-                                i = -1
+                                i = 0
                             }
                         }
                         
@@ -261,12 +276,13 @@ const game = {
         }
     },
 
+    
 
     commands: {
-        moveUp: 'ArrowUp',
-        moveRight: 'ArrowRight',
-        moveDown: 'ArrowDown',
-        moveLeft: 'ArrowLeft',
+        moveUp: ['ArrowUp', 'w'],
+        moveRight: ['ArrowRight', 'd'],
+        moveDown: ['ArrowDown', 's'],
+        moveLeft: ['ArrowLeft', 'a'],
 
         pause: 'Escape'
     }

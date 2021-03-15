@@ -42,6 +42,8 @@ function setTheme(newTheme) {
 themes.buttons.containerSetTheme.addEventListener('click', () => {
     localStorage.setItem('Theme', themes.buttons.buttonSetTheme.checked ? 'dark' : 'light')
     setTheme(localStorage.Theme)
+
+    game.entities.box.events.renderBox()
 })
 
 setTheme(localStorage.Theme)
