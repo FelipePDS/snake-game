@@ -9,7 +9,14 @@ const themes = {
             colorFood: '#f36565',
             colorButtonPrimary: '#3cfd93',
             colorButtonSecondary: '#f36565',
-            colorMessage: '#ffeb33'
+            colorButtonTertiary: '#3cfd93',
+            colorButtonTertiaryDarker: '#27d374',
+            colorMessage: '#ffeb33',
+            colorSettingsBox: '#252533',
+            colorScreenMask: '#00000054',
+            colorText: '#ffffff',
+            colorItemActived: '#ffeb33',
+            colorItemDesactived: '#c7c7d3'
         },
     
         dark: {
@@ -21,7 +28,14 @@ const themes = {
             colorFood: '#f36565',
             colorButtonPrimary: '#25c080',
             colorButtonSecondary: '#e05b5b',
-            colorMessage: '#ffd700'
+            colorButtonTertiary: '#3cfd93',
+            colorButtonTertiaryDarker: '#27d374',
+            colorMessage: '#ffd700',
+            colorSettingsBox: '#252533',
+            colorScreenMask: '#00000054',
+            colorText: '#ffffff',
+            colorItemActived: '#ffeb33',
+            colorItemDesactived: '#c7c7d3'
         }
     },
 
