@@ -19,7 +19,8 @@ const themes = {
             colorTextSecondary: '#a1a3a8',
             colorTitle: '#c7c7d3',
             colorItemActived: '#ffeb33',
-            colorItemDesactived: '#c7c7d3'
+            colorItemDesactived: '#c7c7d3',
+            colorInputBackground: '#30303f'
         },
     
         dark: {
@@ -41,7 +42,8 @@ const themes = {
             colorTextSecondary: '#a1a3a8',
             colorTitle: '#c7c7d3',
             colorItemActived: '#ffeb33',
-            colorItemDesactived: '#c7c7d3'
+            colorItemDesactived: '#c7c7d3',
+            colorInputBackground: '#30303f'
         }
     },
 

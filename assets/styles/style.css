@@ -18,6 +18,7 @@ html {
     --colorTitle: #c7c7d3;
     --colorItemActived: #ffeb33;
     --colorItemDesactived: #c7c7d3;
+    --colorInputBackground: #30303f;
 
     /* --colorBackground: #262633;
     --colorBox: #2d2d3d;
@@ -37,7 +38,8 @@ html {
     --colorTextSecondary: #a1a3a8;
     --colorTitle: #c7c7d3;
     --colorItemActived: #ffeb33;
-    --colorItemDesactived: #c7c7d3; */
+    --colorItemDesactived: #c7c7d3;
+    --colorInputBackground: #30303f; */
 
     font-size:60%;
 }
@@ -64,6 +66,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--colorScrollbarBackground);
+}
+::-webkit-scrollbar {
+    width: .5rem;
+    height: .5rem;
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: .8rem;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: black;
+}
+::-webkit-scrollbar-button {
+    height: .8rem;
 }
 
 .menu-top {
@@ -265,6 +286,9 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .settings-container .settings-box .settings-content-container .setting-box-section+.setting-box-section {
@@ -280,24 +304,32 @@ body {
     margin-bottom: .4rem;
 }
 
-.settings-container .settings-box .settings-content-container .difficulty-section select {
+.settings-container .settings-box .settings-content-container.customize-settings-container .difficulty-section select {
     width: 12rem;
     height: 5.6rem;
 
     padding: 0 1.6rem;
     margin-left: 1rem;
     margin-top: 0.8rem;
-    border: none;
+    border: 1px var(--colorBorderBox) solid;
     border-radius: 0.8rem;
     outline: 0;
 
     font-size: 1.6rem;
 
-    /* background: var(--colorInputBackground); */
-    background: #30303f;
+    background: var(--colorInputBackground);
     color: var(--colorTextSecondary);
 
     cursor: pointer;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select {
+    display: flex;
+    flex-direction: row;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container {
+    display: none;
 }
 
 .settings-container .settings-box .settings-box-footer {
@@ -309,7 +341,9 @@ body {
     justify-content: flex-end;
 
     width: 100%;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
+
+    border-top: 1px var(--colorBorderBoxSecondary) solid;
 }
 
 .settings-container .settings-box .settings-box-footer .button-start-game {

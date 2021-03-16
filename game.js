@@ -13,6 +13,8 @@ const game = {
         paused: false,
         gamePausedContainer: document.querySelector('.game-paused-container'),
         pause: (status) => {
+            if (game.status.run === false) { return null }
+
             if (status.paused) {
                 status.paused = false
                 status.buttonStatusGame.setAttribute('class', 'fa fa-pause')
@@ -33,7 +35,7 @@ const game = {
         box: {
             limitX: 40,
             limitY: 33,
-            collapse: false,
+            collapse: Boolean,
 
             events: {
                 renderBox: () => {
@@ -50,8 +52,8 @@ const game = {
         player: {
             head: {
                 position: {
-                    x: 600,
-                    y: 600
+                    x: 680,
+                    y: 680
                 },
                 
                 length: 1,
@@ -70,13 +72,13 @@ const game = {
                 collapse: true
             },
 
-            speedLevel: 10,
+            speedLevel: Number,
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorSnake}`,
                 colorHead: `${themes.modes[localStorage.Theme].colorHead}`,
-                width: 30,
-                height: 30
+                width: 40,
+                height: 40
             },
 
             events: {
@@ -102,6 +104,7 @@ const game = {
 
                 movePlayer: (player) => {
                     window.addEventListener('keydown', (event) => {
+                        if (game.status.run === false) { return null }
                         if (game.status.paused) { return null }
 
                         const keyName = event.key
@@ -138,7 +141,8 @@ const game = {
                     }
 
                     setInterval(() => {
-                        if (game.status.paused) { return null }
+                        if (game.status.run === false) { return null }
+                        if (game.status.paused) { return null }                        
 
                         if (player.head.direction === 'up') {
                             player.events.clearPlayer(player)
@@ -190,6 +194,8 @@ const game = {
                     }
 
                     setInterval(() => {
+                        if (game.status.run === false) { return null }
+
                         if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
                             food.generated = false
                             increaseTail()
@@ -228,14 +234,14 @@ const game = {
 
         food: {
             position: {
-                x: 90,
-                y: 90
+                x: 80,
+                y: 80
             },
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorFood}`,
-                width: 30,
-                height: 30
+                width: 40,
+                height: 40
             },
 
             generated: true,
@@ -248,6 +254,8 @@ const game = {
 
                 generateFood: (food) => {
                     setInterval(() => {
+                        if (game.status.run === false) { return null }
+
                         if (food.generated) { return null }
 
                         function newPosition() {
@@ -270,7 +278,7 @@ const game = {
                         food.events.renderFood(food)
 
                         food.generated = true
-                    }, 100);
+                    }, game.entities.player.speedLevel * 10);
                 }
             }
         }
@@ -285,13 +293,108 @@ const game = {
         moveLeft: ['ArrowLeft', 'a'],
 
         pause: 'Escape'
+    },
+
+
+
+    settings: {
+        difficulty: {
+            this: 'normal',
+
+            buttons: {
+                setDifficultyButton: document.querySelector('#select-difficulty')
+            },
+
+            setDifficulty: (settings) => {     
+                function defineDifficulty() {
+                    if (settings.difficulty.this === 'easy') {
+                        game.entities.player.speedLevel = 12
+                    } else if (settings.difficulty.this === 'normal') {
+                        game.entities.player.speedLevel = 6
+                    } else if (settings.difficulty.this === 'hard') {
+                        game.entities.player.speedLevel = 3
+                    }
+                }
+                
+                defineDifficulty()
+                settings.difficulty.buttons.setDifficultyButton.addEventListener('change', () => {
+                    settings.difficulty.this = settings.difficulty.buttons.setDifficultyButton.value
+                    defineDifficulty()
+                })
+            }
+        },
+
+        gameMode: {
+            buttons: {
+                setGameModeContainer: document.querySelectorAll('.container-set-game-mode'),
+                optionWallsDontCollide: document.querySelector('#walls-dont-collide'),
+                optionWallsCollide: document.querySelector('#walls-collide')
+            },
+
+            setGameMode: (settings) => {
+                function defineGameMode() {
+                    if (settings.gameMode.buttons.optionWallsDontCollide.checked) {
+                        game.entities.box.collapse = false
+                    } else if (settings.gameMode.buttons.optionWallsCollide.checked) {
+                        game.entities.box.collapse = true
+                    }
+                }
+
+                defineGameMode()
+                settings.gameMode.buttons.setGameModeContainer.forEach((option) => {
+                    option.addEventListener('click', () => {
+                        defineGameMode()
+                    })
+                })
+            }
+        },
+
+        getSettings: (settings) => {
+            settings.difficulty.setDifficulty(settings)
+            settings.gameMode.setGameMode(settings)
+        }
+    },
+
+    events: {
+        start: () => {
+            document.querySelector('.button-start-game').addEventListener('click', () => {
+                document.querySelector('.settings-container').style.display = 'none'
+                document.querySelector('.menu-top').style.display = 'flex'
+                document.querySelector('.game-start-container').style.display = 'flex'
+                setInterval(() => {
+                    if (game.entities.player.head.direction !== '') {
+                        document.querySelector('.game-start-container').style.display = 'none'
+                        clearInterval()
+                    }
+                }, 100);
+
+                game.status.run = true
+            })
+        },
+    
+        gameOver: () => {
+    
+        },
+    
+        reload: () => {
+            
+        }
     }
 }
 
 // ======================== // ======================== //
 
-game.global.box.width = 840
-game.global.box.height = 840
+const global = game.global
+global.box.width = 840
+global.box.height = 840
+
+
+const settings = game.settings
+settings.getSettings(settings)
+
+
+const events = game.events
+events.start()
 
 
 const player = game.entities.player
@@ -313,3 +416,7 @@ status.buttonStatusGame.addEventListener('click', () => {
 window.addEventListener('keyup', (event) => {
     if (event.key === game.commands.pause) { status.pause(status) }
 })
+
+
+events.gameOver()
+events.reload()
