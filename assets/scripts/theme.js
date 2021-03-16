@@ -4,6 +4,7 @@ const themes = {
             colorBackground: '#f4f4f8',
             colorBox: '#ffffff',
             colorBorderBox: '#2c2c3a1c',
+            colorBorderBoxSecondary: '#2f2f41',
             colorSnake: '#3cfd93',
             colorHead: '#3cfd93',
             colorFood: '#f36565',
@@ -14,7 +15,9 @@ const themes = {
             colorMessage: '#ffeb33',
             colorSettingsBox: '#252533',
             colorScreenMask: '#00000054',
-            colorText: '#ffffff',
+            colorTextPrimary: '#ffffff',
+            colorTextSecondary: '#a1a3a8',
+            colorTitle: '#c7c7d3',
             colorItemActived: '#ffeb33',
             colorItemDesactived: '#c7c7d3'
         },
@@ -23,6 +26,7 @@ const themes = {
             colorBackground: '#262633',
             colorBox: '#2d2d3d',
             colorBorderBox: '#2c2c3a4d',
+            colorBorderBoxSecondary: '#2f2f41',
             colorSnake: '#3cfd93',
             colorHead: '#3cfd93',
             colorFood: '#f36565',
@@ -33,7 +37,9 @@ const themes = {
             colorMessage: '#ffd700',
             colorSettingsBox: '#252533',
             colorScreenMask: '#00000054',
-            colorText: '#ffffff',
+            colorTextPrimary: '#ffffff',
+            colorTextSecondary: '#a1a3a8',
+            colorTitle: '#c7c7d3',
             colorItemActived: '#ffeb33',
             colorItemDesactived: '#c7c7d3'
         }
