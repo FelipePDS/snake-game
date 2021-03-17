@@ -35,7 +35,7 @@ const game = {
         box: {
             limitX: 40,
             limitY: 33,
-            collapse: Boolean,
+            collision: Boolean,
 
             events: {
                 renderBox: () => {
@@ -69,7 +69,7 @@ const game = {
                     }
                 }],
 
-                collapse: true
+                collision: true
             },
 
             speedLevel: Number,
@@ -120,6 +120,8 @@ const game = {
                 },
 
                 crawl: (player) => {
+                    if (game.status.run === false) { return null }
+
                     function setPositionHead(axisChanged, axisIncreases) {
                         axisIncreases ? player.head.position[axisChanged] += player.styles.height : player.head.position[axisChanged] -= player.styles.height
                     }
@@ -142,7 +144,7 @@ const game = {
 
                     setInterval(() => {
                         if (game.status.run === false) { return null }
-                        if (game.status.paused) { return null }                        
+                        if (game.status.paused) { return null }
 
                         if (player.head.direction === 'up') {
                             player.events.clearPlayer(player)
@@ -179,7 +181,8 @@ const game = {
 
                             player.events.renderPlayer(player)
                         }
-                    }, player.speedLevel * 10);
+
+                    }, game.entities.player.speedLevel * 10);
                 },
                 
                 eat: (player, food) => {
@@ -201,7 +204,7 @@ const game = {
                             increaseTail()
                             player.ponctuation.show()
                         }
-                    }, player.speedLevel * 10);
+                    }, game.entities.player.speedLevel * 10);
                 }
             },
 
@@ -308,17 +311,17 @@ const game = {
             setDifficulty: (settings) => {     
                 function defineDifficulty() {
                     if (settings.difficulty.this === 'easy') {
-                        game.entities.player.speedLevel = 12
+                        game.entities.player.speedLevel = 10
                     } else if (settings.difficulty.this === 'normal') {
-                        game.entities.player.speedLevel = 6
+                        game.entities.player.speedLevel = 7
                     } else if (settings.difficulty.this === 'hard') {
-                        game.entities.player.speedLevel = 3
+                        game.entities.player.speedLevel = 4
                     }
                 }
-                
+                              
                 defineDifficulty()
-                settings.difficulty.buttons.setDifficultyButton.addEventListener('change', () => {
-                    settings.difficulty.this = settings.difficulty.buttons.setDifficultyButton.value
+                settings.difficulty.buttons.setDifficultyButton.addEventListener('change', (event) => {
+                    settings.difficulty.this = event.target.value
                     defineDifficulty()
                 })
             }
@@ -334,9 +337,9 @@ const game = {
             setGameMode: (settings) => {
                 function defineGameMode() {
                     if (settings.gameMode.buttons.optionWallsDontCollide.checked) {
-                        game.entities.box.collapse = false
+                        game.entities.box.collision = false
                     } else if (settings.gameMode.buttons.optionWallsCollide.checked) {
-                        game.entities.box.collapse = true
+                        game.entities.box.collision = true
                     }
                 }
 
@@ -357,27 +360,52 @@ const game = {
 
     events: {
         start: () => {
-            document.querySelector('.button-start-game').addEventListener('click', () => {
-                document.querySelector('.settings-container').style.display = 'none'
-                document.querySelector('.menu-top').style.display = 'flex'
-                document.querySelector('.game-start-container').style.display = 'flex'
-                setInterval(() => {
-                    if (game.entities.player.head.direction !== '') {
-                        document.querySelector('.game-start-container').style.display = 'none'
-                        clearInterval()
-                    }
-                }, 100);
+            document.querySelector('.settings-container').style.display = 'none'
+            document.querySelector('.menu-top').style.display = 'flex'
+            document.querySelector('.game-start-container').style.display = 'flex'
+            setInterval(() => {
+                if (game.entities.player.head.direction !== '') {
+                    document.querySelector('.game-start-container').style.display = 'none'
+                    clearInterval()
+                }
+            }, 100);
 
-                game.status.run = true
-            })
+            game.status.run = true
         },
     
         gameOver: () => {
-    
-        },
-    
-        reload: () => {
-            
+            function runGameOver() {
+                game.status.gameOver = true
+                game.status.run = false
+
+                document.querySelector('.game-over-container').style.display = 'flex'
+
+                window.addEventListener('keydown', (event) => {
+                    if (event.keyCode === 32) {
+                        location.reload()
+                    }
+                })
+                clearInterval()
+            }
+
+            function verifyGameOver(playerX, playerY, object, collisionObject, entityPositionX, entityPositionY, entity2PositionX, entity2PositionY) {
+                if (collisionObject) {
+                    if (playerX === entityPositionX && playerY === entityPositionY && object === 'tail') {
+                        runGameOver()
+                    }
+
+                    if ((playerX === entityPositionX || playerX === entity2PositionX || playerY === entityPositionY || playerY === entity2PositionY) && object === 'walls') {
+                        runGameOver()
+                    }
+                }
+            }
+
+            setInterval(() => {
+                for (let i in game.entities.player.tail.trail) {
+                    verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'tail', game.entities.player.tail.collision, game.entities.player.tail.trail[i].position.x, game.entities.player.tail.trail[i].position.y)
+                }
+                verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'walls', game.entities.box.collision, 0 - game.entities.player.styles.height, 0 - game.entities.player.styles.width, game.global.box.width + game.entities.player.styles.width, game.global.box.height + game.entities.player.styles.height)
+            }, game.entities.player.speedLevel * 10);
         }
     }
 }
@@ -393,30 +421,31 @@ const settings = game.settings
 settings.getSettings(settings)
 
 
-const events = game.events
-events.start()
+document.querySelector('.button-start-game').addEventListener('click', () => {
+    const events = game.events
+    events.start()
 
 
-const player = game.entities.player
-player.events.renderPlayer(player)
-player.events.movePlayer(player)
-player.events.crawl(player)
-player.events.eat(player, game.entities.food)
+    const player = game.entities.player
+    player.events.renderPlayer(player)
+    player.events.movePlayer(player)
+    player.events.crawl(player)
+    player.events.eat(player, game.entities.food)
 
 
-const food = game.entities.food
-food.events.renderFood(food)
-food.events.generateFood(food)
+    const food = game.entities.food
+    food.events.renderFood(food)
+    food.events.generateFood(food)
 
 
-const status = game.status
-status.buttonStatusGame.addEventListener('click', () => {
-    status.pause(status)
+    const status = game.status
+    status.buttonStatusGame.addEventListener('click', () => {
+        status.pause(status)
+    })
+    window.addEventListener('keyup', (event) => {
+        if (event.key === game.commands.pause) { status.pause(status) }
+    })
+
+
+    events.gameOver()  
 })
-window.addEventListener('keyup', (event) => {
-    if (event.key === game.commands.pause) { status.pause(status) }
-})
-
-
-events.gameOver()
-events.reload()
