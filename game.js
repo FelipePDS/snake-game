@@ -123,7 +123,7 @@ const game = {
                     if (game.status.run === false) { return null }
 
                     function setPositionHead(axisChanged, axisIncreases) {
-                        axisIncreases ? player.head.position[axisChanged] += player.styles.height : player.head.position[axisChanged] -= player.styles.height
+                        axisIncreases ? player.head.position[axisChanged] += player.styles.width : player.head.position[axisChanged] -= player.styles.width
                     }
 
                     function setPositionTail(axisChanged, headAxis, axisIncreases) {
@@ -142,6 +142,18 @@ const game = {
                         }
                     }
 
+                    function verifyLimitBox(direction) {
+                        if (game.entities.box.collision === false) {
+                            if (game.entities.player.head.position.y === 0 - game.entities.player.styles.height && direction === 'up') { game.entities.player.head.position.y = game.global.box.height - game.entities.player.styles.height }
+
+                            if (game.entities.player.head.position.x === game.global.box.width && direction === 'right') { game.entities.player.head.position.x = 0 }
+
+                            if (game.entities.player.head.position.y === game.global.box.height && direction === 'down') { game.entities.player.head.position.y = 0 }
+
+                            if (game.entities.player.head.position.x === 0 - game.entities.player.styles.width && direction === 'left') { game.entities.player.head.position.x = game.global.box.width - game.entities.player.styles.width }
+                        }
+                    }
+
                     setInterval(() => {
                         if (game.status.run === false) { return null }
                         if (game.status.paused) { return null }
@@ -151,6 +163,7 @@ const game = {
 
                             setPositionHead('y', false)
                             setPositionTail('y', 'x', true)
+                            verifyLimitBox('up')
 
                             player.events.renderPlayer(player)
                         }
@@ -160,6 +173,7 @@ const game = {
 
                             setPositionHead('x', true)
                             setPositionTail('x', 'y', false)
+                            verifyLimitBox('right')
 
                             player.events.renderPlayer(player)
                         }
@@ -169,6 +183,7 @@ const game = {
 
                             setPositionHead('y', true)
                             setPositionTail('y', 'x', false)
+                            verifyLimitBox('down')
 
                             player.events.renderPlayer(player)
                         }
@@ -178,10 +193,10 @@ const game = {
 
                             setPositionHead('x', false)
                             setPositionTail('x', 'y', true)
+                            verifyLimitBox('left')
 
                             player.events.renderPlayer(player)
                         }
-
                     }, game.entities.player.speedLevel * 10);
                 },
                 
@@ -404,7 +419,7 @@ const game = {
                 for (let i in game.entities.player.tail.trail) {
                     verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'tail', game.entities.player.tail.collision, game.entities.player.tail.trail[i].position.x, game.entities.player.tail.trail[i].position.y)
                 }
-                verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'walls', game.entities.box.collision, 0 - game.entities.player.styles.height, 0 - game.entities.player.styles.width, game.global.box.width + game.entities.player.styles.width, game.global.box.height + game.entities.player.styles.height)
+                verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'walls', game.entities.box.collision, 0 - game.entities.player.styles.height, 0 - game.entities.player.styles.width, game.global.box.width, game.global.box.height)
             }, game.entities.player.speedLevel * 10);
         }
     }
