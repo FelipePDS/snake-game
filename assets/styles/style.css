@@ -72,19 +72,15 @@ body {
     background-color: var(--colorScrollbarBackground);
 }
 ::-webkit-scrollbar {
-    width: .5rem;
-    height: .5rem;
+    width: .6rem;
+    height: .6rem;
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: black;
-    border-radius: .8rem;
+    background: #1e1e29;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: black;
-}
-::-webkit-scrollbar-button {
-    height: .8rem;
+    background: #1e1e29;
 }
 
 .menu-top {
@@ -323,9 +319,46 @@ body {
     cursor: pointer;
 }
 
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section {
+    height: 7rem;
+    margin-bottom: -.5rem;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .title {
+    margin-bottom: .8rem;
+}
+
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select {
     display: flex;
     flex-direction: row;
+
+    margin: .8rem 1rem 0 1rem;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode {
+    position: relative;
+
+    margin-right: 2rem;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode input[type="radio"] {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+
+    cursor: pointer;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode label {
+    cursor: pointer;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode label img {
+    border-radius: .8rem;
+}
+
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode label img:hover {
+    
 }
 
 .settings-container .settings-box .settings-content-container.commands-settings-container {

@@ -4,8 +4,6 @@ const game = {
         context: this.box.getContext('2d')
     },
 
-
-
     status: {
         run: false,
 
@@ -29,8 +27,6 @@ const game = {
         gameOver: false
     },
 
-
-
     entities: {
         box: {
             limitX: 40,
@@ -46,8 +42,6 @@ const game = {
                 }
             }
         },
-
-
         
         player: {
             head: {
@@ -88,7 +82,10 @@ const game = {
                     game.global.context.strokeStyle = `${themes.modes[localStorage.Theme].colorBox}`
                     game.global.context.strokeRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
 
+                    let colorVariance = 253
                     for (let i in player.tail.trail) {
+                        if (colorVariance > 140) { colorVariance -= 3 }
+                        game.global.context.fillStyle = `rgb(60, ${colorVariance}, 147)`
                         game.global.context.fillRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                         game.global.context.strokeRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                     }
@@ -248,8 +245,6 @@ const game = {
             }
         },
 
-
-
         food: {
             position: {
                 x: 80,
@@ -276,33 +271,27 @@ const game = {
 
                         if (food.generated) { return null }
 
-                        function newPosition() {
-                            let generatePositionX = Math.floor(Math.random() * game.global.box.width)
-                            food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
+                        food.generated = true
 
-                            let generatePositionY = Math.floor(Math.random() * game.global.box.height)
-                            food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
-                        }
-
-                        newPosition()
+                        let generatePositionX = Math.floor(Math.random() * game.global.box.width)
+                        food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
+                        let generatePositionY = Math.floor(Math.random() * game.global.box.height)
+                        food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
 
                         for (let i in game.entities.player.tail.trail) {
-                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y || food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
-                                newPosition()
-                                i = 0
+                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y) {
+                                food.generated = false
+                            } else if (food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
+                                food.generated = false
                             }
                         }
                         
-                        food.events.renderFood(food)
-
-                        food.generated = true
-                    }, game.entities.player.speedLevel * 10);
+                        if (food.generated) { food.events.renderFood(food) }
+                    }, 10);
                 }
             }
         }
     },
-
-    
 
     commands: {
         moveUp: ['ArrowUp', 'w'],
@@ -312,8 +301,6 @@ const game = {
 
         pause: 'Escape'
     },
-
-
 
     settings: {
         difficulty: {
