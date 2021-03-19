@@ -281,13 +281,15 @@ const game = {
                         for (let i in game.entities.player.tail.trail) {
                             if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y) {
                                 food.generated = false
+                                console.log('food generated in tail')
                             } else if (food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
                                 food.generated = false
+                                console.log('food generated in head')
                             }
                         }
                         
                         if (food.generated) { food.events.renderFood(food) }
-                    }, 10);
+                    }, game.entities.player.speedLevel * 10);
                 }
             }
         }
@@ -303,6 +305,32 @@ const game = {
     },
 
     settings: {
+        container: {
+            customizeButton: document.querySelector('.customize-button'),
+            commandsButton: document.querySelector('.commands-button'),
+
+            customizeSettingsContainer: document.querySelector('.customize-settings-container'),
+            commandsSettingsContainer: document.querySelector('.commands-settings-container'),
+
+            switchContainer: (settings) => {
+                settings.container.customizeButton.addEventListener('click', () => {
+                    settings.container.customizeButton.setAttribute('id', 'actived')
+                    settings.container.commandsButton.setAttribute('id', 'desactived')
+
+                    settings.container.customizeSettingsContainer.style.display = 'flex'
+                    settings.container.commandsSettingsContainer.style.display = 'none'
+                })
+
+                settings.container.commandsButton.addEventListener('click', () => {
+                    settings.container.customizeButton.setAttribute('id', 'desactived')
+                    settings.container.commandsButton.setAttribute('id', 'actived')
+
+                    settings.container.customizeSettingsContainer.style.display = 'none'
+                    settings.container.commandsSettingsContainer.style.display = 'flex'
+                })
+            }
+        },
+
         difficulty: {
             this: 'normal',
 
@@ -313,11 +341,11 @@ const game = {
             setDifficulty: (settings) => {     
                 function defineDifficulty() {
                     if (settings.difficulty.this === 'easy') {
-                        game.entities.player.speedLevel = 10
+                        game.entities.player.speedLevel = 9
                     } else if (settings.difficulty.this === 'normal') {
                         game.entities.player.speedLevel = 7
                     } else if (settings.difficulty.this === 'hard') {
-                        game.entities.player.speedLevel = 4
+                        game.entities.player.speedLevel = 5
                     }
                 }
                               
@@ -355,6 +383,7 @@ const game = {
         },
 
         getSettings: (settings) => {
+            settings.container.switchContainer(settings)
             settings.difficulty.setDifficulty(settings)
             settings.gameMode.setGameMode(settings)
         }

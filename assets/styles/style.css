@@ -19,6 +19,7 @@ html {
     --colorItemActived: #ffeb33;
     --colorItemDesactived: #c7c7d3;
     --colorInputBackground: #30303f;
+    --colorScrollBar: #2f2f3f;
 
     /* --colorBackground: #262633;
     --colorBox: #2d2d3d;
@@ -39,7 +40,8 @@ html {
     --colorTitle: #c7c7d3;
     --colorItemActived: #ffeb33;
     --colorItemDesactived: #c7c7d3;
-    --colorInputBackground: #30303f; */
+    --colorInputBackground: #30303f;
+    --colorScrollBar: #2f2f3f; */
 
     font-size:60%;
 }
@@ -72,15 +74,15 @@ body {
     background-color: var(--colorScrollbarBackground);
 }
 ::-webkit-scrollbar {
-    width: .6rem;
-    height: .6rem;
+    width: .75rem;
+    height: .75rem;
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: #1e1e29;
+    background: var(--colorScrollBar);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #1e1e29;
+    background: var(--colorScrollBar);
 }
 
 .menu-top {
@@ -266,14 +268,14 @@ body {
     margin-left: 2rem;
 }
 
-.settings-container .settings-box .settings-menu-top .active {
+.settings-container .settings-box .settings-menu-top #actived {
     color: var(--colorItemActived);
     border-bottom: 2px var(--colorItemActived) solid;
 
     cursor: default;
 }
 
-.settings-container .settings-box .settings-menu-top .active:hover {
+.settings-container .settings-box .settings-menu-top #actived:hover {
     color: var(--colorItemActived);
 }
 
@@ -297,7 +299,7 @@ body {
 
     color: var(--colorTitle);
 
-    margin-bottom: .4rem;
+    margin-bottom: 1.2rem;
 }
 
 .settings-container .settings-box .settings-content-container.customize-settings-container .difficulty-section select {
@@ -306,7 +308,6 @@ body {
 
     padding: 0 1.6rem;
     margin-left: 1rem;
-    margin-top: 0.8rem;
     border: 1px var(--colorBorderBox) solid;
     border-radius: 0.8rem;
     outline: 0;
@@ -322,10 +323,6 @@ body {
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section {
     height: 7rem;
     margin-bottom: -.5rem;
-}
-
-.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .title {
-    margin-bottom: .8rem;
 }
 
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select {
@@ -349,6 +346,11 @@ body {
     cursor: pointer;
 }
 
+.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode input[type="radio"]:checked+label img {
+    border: 1px var(--colorButtonTertiary) solid;
+    box-sizing: border-box;
+}
+
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode label {
     cursor: pointer;
 }
@@ -357,12 +359,82 @@ body {
     border-radius: .8rem;
 }
 
-.settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select .container-set-game-mode label img:hover {
-    
-}
-
 .settings-container .settings-box .settings-content-container.commands-settings-container {
     display: none;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .commands-container {
+    margin-left: 1rem;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    color: var(--colorTextSecondary);
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move .commands-key-to-move {
+    display: grid;    
+    grid-template-columns:repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+
+    grid-template-areas: 
+        'up up up'
+        'left down right';
+
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .command-key-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .command-key-button .command-key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: .8rem;
+    background-color: var(--colorInputBackground);
+
+    color: var(--colorTextSecondary);
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move .commands-key-to-move .key-arrow-up {
+    grid-area: up;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move .commands-key-to-move .key-arrow-left {
+    grid-area: left;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move .commands-key-to-move .key-arrow-down {
+    grid-area: down;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .commands-to-move .commands-key-to-move .key-arrow-right {
+    grid-area: right;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .move-section .others-key-container {
+    margin: 0 2rem;
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .pause-section {
+    height: 3.5rem;
+    margin-bottom: -1rem
+}
+
+.settings-container .settings-box .settings-content-container.commands-settings-container .pause-section .command-to-pause .key-esc {
+    justify-content: initial;
 }
 
 .settings-container .settings-box .settings-box-footer {

@@ -34,10 +34,10 @@
         <div class="settings-box">
 
             <div class="settings-menu-top">
-                <div class="item active">
+                <div class="item customize-button" id="actived">
                     <p>Customize</p>
                 </div>
-                <div class="item">
+                <div class="item commands-button" id="desactived">
                     <p>Commands</p>
                 </div>
             </div>
@@ -68,7 +68,69 @@
             </div>
 
             <div class="settings-content-container commands-settings-container">
-                
+                <div class="setting-box-section move-section">
+                    <h1 class="title">Move</h1>
+                    <div class="commands-container commands-to-move">
+                        <div class="commands-key-to-move arrows-commands-to-move">
+                            <div class="command-key-button key-arrow-up">
+                                <div class="command-key">
+                                    <i class="fa fa-caret-up"></i>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-left">
+                                <div class="command-key">
+                                    <i class="fa fa-caret-left"></i>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-down">
+                                <div class="command-key">
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-right">
+                                <div class="command-key">
+                                    <i class="fa fa-caret-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="others-key-container">OR</div>
+
+                        <div class="commands-key-to-move letters-commands-to-move">
+                            <div class="command-key-button key-arrow-up">
+                                <div class="command-key">
+                                    <p>W</p>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-left">
+                                <div class="command-key">
+                                    <p>A</p>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-down">
+                                <div class="command-key">
+                                    <p>S</p>
+                                </div>
+                            </div>
+                            <div class="command-key-button key-arrow-right">
+                                <div class="command-key">
+                                    <p>D</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-box-section pause-section">
+                    <h1 class="title">Pause</h1>
+                    <div class="commands-container command-to-pause">
+                        <div class="command-key-button key-esc">
+                            <div class="command-key">
+                                <p>Esc</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="settings-box-footer">
@@ -91,7 +153,6 @@
     </div>
     
     <script src="assets/scripts/theme.js"></script>
-    <script src="assets/scripts/settings.js"></script>
     <script src="game.js"></script>
 </body>
 </html>
