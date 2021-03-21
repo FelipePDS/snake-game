@@ -11,7 +11,7 @@ const game = {
         paused: false,
         gamePausedContainer: document.querySelector('.game-paused-container'),
         pause: (status) => {
-            if (game.status.run === false) { return null }
+            if (!game.status.run) { return null }
 
             if (status.paused) {
                 status.paused = false
@@ -29,8 +29,6 @@ const game = {
 
     entities: {
         box: {
-            limitX: 40,
-            limitY: 33,
             collision: Boolean,
 
             events: {
@@ -46,11 +44,9 @@ const game = {
         player: {
             head: {
                 position: {
-                    x: 680,
-                    y: 680
+                    x: 520,
+                    y: 520
                 },
-                
-                length: 1,
 
                 direction: ''
             },
@@ -70,22 +66,21 @@ const game = {
 
             styles: {
                 color: `${themes.modes[localStorage.Theme].colorSnake}`,
-                colorHead: `${themes.modes[localStorage.Theme].colorHead}`,
                 width: 40,
                 height: 40
             },
 
             events: {
                 renderPlayer: (player) => {
-                    game.global.context.fillStyle = player.styles.colorHead
+                    game.global.context.fillStyle = player.styles.color
                     game.global.context.fillRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
                     game.global.context.strokeStyle = `${themes.modes[localStorage.Theme].colorBox}`
                     game.global.context.strokeRect(player.head.position.x, player.head.position.y, player.styles.width, player.styles.height)
 
-                    let colorVariance = 253
+                    let greenColorVariance = 253
                     for (let i in player.tail.trail) {
-                        if (colorVariance > 140) { colorVariance -= 3 }
-                        game.global.context.fillStyle = `rgb(60, ${colorVariance}, 147)`
+                        if (greenColorVariance > 135) { greenColorVariance -= 4 }
+                        game.global.context.fillStyle = `rgb(60, ${greenColorVariance}, 147)`
                         game.global.context.fillRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                         game.global.context.strokeRect(player.tail.trail[i].position.x, player.tail.trail[i].position.y, player.styles.width, player.styles.height)
                     }
@@ -101,7 +96,7 @@ const game = {
 
                 movePlayer: (player) => {
                     window.addEventListener('keydown', (event) => {
-                        if (game.status.run === false) { return null }
+                        if (!game.status.run) { return null }
                         if (game.status.paused) { return null }
 
                         const keyName = event.key
@@ -117,10 +112,12 @@ const game = {
                 },
 
                 crawl: (player) => {
-                    if (game.status.run === false) { return null }
-
                     function setPositionHead(axisChanged, axisIncreases) {
-                        axisIncreases ? player.head.position[axisChanged] += player.styles.width : player.head.position[axisChanged] -= player.styles.width
+                        if (axisIncreases) {
+                            player.head.position[axisChanged] += player.styles.width
+                        } else {
+                            player.head.position[axisChanged] -= player.styles.width
+                        }
                     }
 
                     function setPositionTail(axisChanged, headAxis, axisIncreases) {
@@ -139,7 +136,7 @@ const game = {
                         }
                     }
 
-                    function verifyLimitBox(direction) {
+                    function playerInBoxLimit(direction) {
                         if (game.entities.box.collision === false) {
                             if (game.entities.player.head.position.y === 0 - game.entities.player.styles.height && direction === 'up') { game.entities.player.head.position.y = game.global.box.height - game.entities.player.styles.height }
 
@@ -152,7 +149,7 @@ const game = {
                     }
 
                     setInterval(() => {
-                        if (game.status.run === false) { return null }
+                        if (!game.status.run) { return null }
                         if (game.status.paused) { return null }
 
                         if (player.head.direction === 'up') {
@@ -160,7 +157,7 @@ const game = {
 
                             setPositionHead('y', false)
                             setPositionTail('y', 'x', true)
-                            verifyLimitBox('up')
+                            playerInBoxLimit('up')
 
                             player.events.renderPlayer(player)
                         }
@@ -170,7 +167,7 @@ const game = {
 
                             setPositionHead('x', true)
                             setPositionTail('x', 'y', false)
-                            verifyLimitBox('right')
+                            playerInBoxLimit('right')
 
                             player.events.renderPlayer(player)
                         }
@@ -180,7 +177,7 @@ const game = {
 
                             setPositionHead('y', true)
                             setPositionTail('y', 'x', false)
-                            verifyLimitBox('down')
+                            playerInBoxLimit('down')
 
                             player.events.renderPlayer(player)
                         }
@@ -190,7 +187,7 @@ const game = {
 
                             setPositionHead('x', false)
                             setPositionTail('x', 'y', true)
-                            verifyLimitBox('left')
+                            playerInBoxLimit('left')
 
                             player.events.renderPlayer(player)
                         }
@@ -198,22 +195,19 @@ const game = {
                 },
                 
                 eat: (player, food) => {
-                    function increaseTail() {
-                        let lastTailPosition = player.tail.trail.length - 1
-                        player.tail.trail.push({
-                            position: {
-                                x: player.tail.trail[lastTailPosition].position.x,
-                                y: player.tail.trail[lastTailPosition].position.y
-                            }
-                        })
-                    }
-
                     setInterval(() => {
-                        if (game.status.run === false) { return null }
+                        if (!game.status.run) { return null }
 
                         if (player.head.position.x === food.position.x && player.head.position.y === food.position.y) {
                             food.generated = false
-                            increaseTail()
+
+                            player.tail.trail.push({
+                                position: {
+                                    x: player.tail.trail[player.tail.trail.length - 1].position.x,
+                                    y: player.tail.trail[player.tail.trail.length - 1].position.y
+                                }
+                            })
+
                             player.ponctuation.show()
                         }
                     }, game.entities.player.speedLevel * 10);
@@ -223,20 +217,14 @@ const game = {
             ponctuation: {
                 content: document.querySelector('.ponctuation'),
 
-                value: () => {
-                    return game.entities.player.tail.trail.length
-                },
+                value: () => { return game.entities.player.tail.trail.length },
 
                 show: () => {
                     if (game.entities.player.ponctuation.value() < 10) {
                         game.entities.player.ponctuation.content.innerHTML = `00${game.entities.player.ponctuation.value()}pts`
-                    } 
-                    
-                    else if (game.entities.player.ponctuation.value() < 100) {
+                    } else if (game.entities.player.ponctuation.value() < 100) {
                         game.entities.player.ponctuation.content.innerHTML = `0${game.entities.player.ponctuation.value()}pts`
-                    }
-
-                    else if (game.entities.player.ponctuation.value() >= 100) {
+                    } else {
                         game.entities.player.ponctuation.content.innerHTML = `${game.entities.player.ponctuation.value()}pts`
                     }
                 },
@@ -267,29 +255,34 @@ const game = {
 
                 generateFood: (food) => {
                     setInterval(() => {
-                        if (game.status.run === false) { return null }
-
-                        if (food.generated) { return null }
+                        if (!game.status.run) { return null }
+                        if (food.generated) { return null }                        
 
                         food.generated = true
+
+                        let lastPostionFood = {
+                            x: food.position.x,
+                            y: food.position.y
+                        }
 
                         let generatePositionX = Math.floor(Math.random() * game.global.box.width)
                         food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
                         let generatePositionY = Math.floor(Math.random() * game.global.box.height)
                         food.position.y = generatePositionY - (generatePositionY % game.entities.player.styles.height)
 
-                        for (let i in game.entities.player.tail.trail) {
-                            if (food.position.x === game.entities.player.tail.trail[i].position.x && food.position.y === game.entities.player.tail.trail[i].position.y) {
+                        game.entities.player.tail.trail.forEach(trail => {
+                            if (food.position.x === trail.position.x && food.position.y === trail.position.y) {
                                 food.generated = false
-                                console.log('food generated in tail')
                             } else if (food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
                                 food.generated = false
-                                console.log('food generated in head')
                             }
+                        })
+                        if (food.position.x === lastPostionFood.x && food.position.y === lastPostionFood.y) {
+                            food.generated = false
                         }
                         
                         if (food.generated) { food.events.renderFood(food) }
-                    }, game.entities.player.speedLevel * 10);
+                    });
                 }
             }
         }
@@ -313,21 +306,19 @@ const game = {
             commandsSettingsContainer: document.querySelector('.commands-settings-container'),
 
             switchContainer: (settings) => {
-                settings.container.customizeButton.addEventListener('click', () => {
-                    settings.container.customizeButton.setAttribute('id', 'actived')
-                    settings.container.commandsButton.setAttribute('id', 'desactived')
+                function setSettingsContainerActived(buttonActived, buttonDesactived, containerActived, containerDesactived) {
+                    buttonDesactived.addEventListener('click', () => {
+                        buttonDesactived.setAttribute('id', 'actived')
+                        buttonActived.setAttribute('id', 'desactived')
+    
+                        containerDesactived.style.display = 'flex'
+                        containerActived.style.display = 'none'
+                    })
+                }
 
-                    settings.container.customizeSettingsContainer.style.display = 'flex'
-                    settings.container.commandsSettingsContainer.style.display = 'none'
-                })
+                setSettingsContainerActived(settings.container.commandsButton, settings.container.customizeButton, settings.container.commandsSettingsContainer, settings.container.customizeSettingsContainer)
 
-                settings.container.commandsButton.addEventListener('click', () => {
-                    settings.container.customizeButton.setAttribute('id', 'desactived')
-                    settings.container.commandsButton.setAttribute('id', 'actived')
-
-                    settings.container.customizeSettingsContainer.style.display = 'none'
-                    settings.container.commandsSettingsContainer.style.display = 'flex'
-                })
+                setSettingsContainerActived(settings.container.customizeButton, settings.container.commandsButton, settings.container.customizeSettingsContainer, settings.container.commandsSettingsContainer)
             }
         },
 
@@ -341,11 +332,11 @@ const game = {
             setDifficulty: (settings) => {     
                 function defineDifficulty() {
                     if (settings.difficulty.this === 'easy') {
-                        game.entities.player.speedLevel = 9
+                        game.entities.player.speedLevel = 10
                     } else if (settings.difficulty.this === 'normal') {
-                        game.entities.player.speedLevel = 7
+                        game.entities.player.speedLevel = 7.5
                     } else if (settings.difficulty.this === 'hard') {
-                        game.entities.player.speedLevel = 5
+                        game.entities.player.speedLevel = 6.5
                     }
                 }
                               
@@ -405,37 +396,29 @@ const game = {
         },
     
         gameOver: () => {
-            function runGameOver() {
-                game.status.gameOver = true
-                game.status.run = false
-
-                document.querySelector('.game-over-container').style.display = 'flex'
-
-                window.addEventListener('keydown', (event) => {
-                    if (event.keyCode === 32) {
-                        location.reload()
-                    }
-                })
-                clearInterval()
-            }
-
             function verifyGameOver(playerX, playerY, object, collisionObject, entityPositionX, entityPositionY, entity2PositionX, entity2PositionY) {
                 if (collisionObject) {
-                    if (playerX === entityPositionX && playerY === entityPositionY && object === 'tail') {
-                        runGameOver()
-                    }
+                    if ((playerX === entityPositionX && playerY === entityPositionY && object === 'tail') || ((playerX === entityPositionX || playerX === entity2PositionX || playerY === entityPositionY || playerY === entity2PositionY) && object === 'walls')) {
+                        game.status.gameOver = true
+                        game.status.run = false
 
-                    if ((playerX === entityPositionX || playerX === entity2PositionX || playerY === entityPositionY || playerY === entity2PositionY) && object === 'walls') {
-                        runGameOver()
+                        document.querySelector('.game-over-container').style.display = 'flex'
                     }
                 }
             }
 
-            setInterval(() => {
+            const checkingGameOver = setInterval(() => {
                 for (let i in game.entities.player.tail.trail) {
                     verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'tail', game.entities.player.tail.collision, game.entities.player.tail.trail[i].position.x, game.entities.player.tail.trail[i].position.y)
                 }
                 verifyGameOver(game.entities.player.head.position.x, game.entities.player.head.position.y, 'walls', game.entities.box.collision, 0 - game.entities.player.styles.height, 0 - game.entities.player.styles.width, game.global.box.width, game.global.box.height)
+
+                if (game.status.gameOver) {
+                    clearInterval(checkingGameOver)
+                    window.addEventListener('keydown', (event) => {
+                        if (event.key === ' ') { location.reload() }
+                    })
+                }
             }, game.entities.player.speedLevel * 10);
         }
     }
@@ -444,8 +427,8 @@ const game = {
 // ======================== // ======================== //
 
 const global = game.global
-global.box.width = 840
-global.box.height = 840
+global.box.width = 720
+global.box.height = 720
 
 
 const settings = game.settings

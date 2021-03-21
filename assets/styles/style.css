@@ -1,27 +1,5 @@
 html {
-    --colorBackground: #f4f4f8;
-    --colorBox: #ffffff;
-    --colorBorderBox: #2c2c3a1c;
-    --colorBorderBoxSecondary: #2f2f41;
-    --colorSnake: #3cfd93;
-    --colorHead: #3cfd93;
-    --colorFood: #f36565;
-    --colorButtonPrimary: #3cfd93;
-    --colorButtonSecondary: #f36565;
-    --colorButtonTertiary: #3cfd93;
-    --colorButtonTertiaryDarker: #27d374;
-    --colorMessage: #ffeb33;
-    --colorSettingsBox: #252533;
-    --colorScreenMask: #00000054;
-    --colorTextPrimary: #ffffff;
-    --colorTextSecondary: #a1a3a8;
-    --colorTitle: #c7c7d3;
-    --colorItemActived: #ffeb33;
-    --colorItemDesactived: #c7c7d3;
-    --colorInputBackground: #30303f;
-    --colorScrollBar: #2f2f3f;
-
-    /* --colorBackground: #262633;
+    --colorBackground: #262633;
     --colorBox: #2d2d3d;
     --colorBorderBox: #2c2c3a4d;
     --colorBorderBoxSecondary: #2f2f41;
@@ -33,6 +11,28 @@ html {
     --colorButtonTertiary: #3cfd93;
     --colorButtonTertiaryDarker: #27d374;
     --colorMessage: #ffd700;
+    --colorSettingsBox: #252533;
+    --colorScreenMask: #00000054;
+    --colorTextPrimary: #ffffff;
+    --colorTextSecondary: #a1a3a8;
+    --colorTitle: #c7c7d3;
+    --colorItemActived: #ffeb33;
+    --colorItemDesactived: #c7c7d3;
+    --colorInputBackground: #30303f;
+    --colorScrollBar: #2f2f3f;
+
+    /* --colorBackground: #f4f4f8;
+    --colorBox: #ffffff;
+    --colorBorderBox: #2c2c3a1c;
+    --colorBorderBoxSecondary: #2f2f41;
+    --colorSnake: #3cfd93;
+    --colorHead: #3cfd93;
+    --colorFood: #f36565;
+    --colorButtonPrimary: #3cfd93;
+    --colorButtonSecondary: #f36565;
+    --colorButtonTertiary: #3cfd93;
+    --colorButtonTertiaryDarker: #27d374;
+    --colorMessage: #ffeb33;
     --colorSettingsBox: #252533;
     --colorScreenMask: #00000054;
     --colorTextPrimary: #ffffff;
@@ -153,7 +153,7 @@ body {
     }
 }
 
-.menu-top .container-set-theme .theme-toggle {
+.container-set-theme .theme-toggle {
     width: 50px;
     height: 30px;
     margin-left: 1.5rem;
@@ -166,7 +166,7 @@ body {
     cursor: pointer;
 }
 
-.menu-top .container-set-theme .button-set-theme:checked+.theme-toggle:after {
+.container-set-theme .button-set-theme:checked+.theme-toggle:after {
     left: calc(100% - 33px);
     background-color: transparent;
     border-right-width: 6px;
@@ -174,13 +174,13 @@ body {
     cursor: pointer;
 }
 
-.menu-top .container-set-theme .button-set-theme+.theme-toggle:after {
+.container-set-theme .button-set-theme+.theme-toggle:after {
     -webkit-transition: all 0.25s ease-in-out;
     transition: all 0.25s ease-in-out;
     cursor: pointer;
 }
 
-.menu-top .container-set-theme .theme-toggle:after {
+.container-set-theme .theme-toggle:after {
     width: 22px;
     height: 22px;
     display: block;
@@ -195,8 +195,8 @@ body {
 }
 
 #box {
-    width: 420px;
-    height: 420px;
+    width: 460px;
+    height: 460px;
 
     background-color: var(--colorBox);
     border: 2px var(--colorBorderBox) solid;
@@ -231,7 +231,7 @@ body {
     z-index: 1;
 
     width: 550px;
-    height: 350px;
+    height: 420px;
 
     background-color: var(--colorSettingsBox);
 
@@ -321,8 +321,8 @@ body {
 }
 
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section {
-    height: 7rem;
-    margin-bottom: -.5rem;
+    /* height: 7rem;
+    margin-bottom: -.5rem; */
 }
 
 .settings-container .settings-box .settings-content-container.customize-settings-container .game-mode-section .game-mode-select {
@@ -429,8 +429,8 @@ body {
 }
 
 .settings-container .settings-box .settings-content-container.commands-settings-container .pause-section {
-    height: 3.5rem;
-    margin-bottom: -1rem
+    /* height: 3.5rem;
+    margin-bottom: -1rem */
 }
 
 .settings-container .settings-box .settings-content-container.commands-settings-container .pause-section .command-to-pause .key-esc {
