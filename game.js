@@ -138,13 +138,13 @@ const game = {
 
                     function playerInBoxLimit(direction) {
                         if (game.entities.box.collision === false) {
-                            if (game.entities.player.head.position.y === 0 - game.entities.player.styles.height && direction === 'up') { game.entities.player.head.position.y = game.global.box.height - game.entities.player.styles.height }
+                            if (player.head.position.y === 0 - player.styles.height && direction === 'up') { player.head.position.y = game.global.box.height - player.styles.height }
 
-                            if (game.entities.player.head.position.x === game.global.box.width && direction === 'right') { game.entities.player.head.position.x = 0 }
+                            if (player.head.position.x === game.global.box.width && direction === 'right') { player.head.position.x = 0 }
 
-                            if (game.entities.player.head.position.y === game.global.box.height && direction === 'down') { game.entities.player.head.position.y = 0 }
+                            if (player.head.position.y === game.global.box.height && direction === 'down') { player.head.position.y = 0 }
 
-                            if (game.entities.player.head.position.x === 0 - game.entities.player.styles.width && direction === 'left') { game.entities.player.head.position.x = game.global.box.width - game.entities.player.styles.width }
+                            if (player.head.position.x === 0 - player.styles.width && direction === 'left') { player.head.position.x = game.global.box.width - player.styles.width }
                         }
                     }
 
