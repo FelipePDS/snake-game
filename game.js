@@ -383,7 +383,6 @@ const game = {
     events: {
         start: () => {
             document.querySelector('.settings-container').style.display = 'none'
-            document.querySelector('.menu-top').style.display = 'flex'
             document.querySelector('.game-start-container').style.display = 'flex'
             setInterval(() => {
                 if (game.entities.player.head.direction !== '') {
