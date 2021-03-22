@@ -22,7 +22,7 @@ const themes = {
             colorItemDesactived: '#c7c7d3',
             colorInputBackground: '#30303f',
             colorScrollBar: '#2f2f3f',
-            colorBackgroundPopUp: '#ffffff'
+            colorBackgroundPopUp: '#fafafc'
         },
     
         dark: {

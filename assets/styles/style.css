@@ -21,7 +21,6 @@ html {
     --colorInputBackground: #30303f;
     --colorScrollBar: #2f2f3f;
     --colorBackgroundPopUp: #252533;
-    --colorText: white;
 
     /* --colorBackground: #f4f4f8;
     --colorBox: #ffffff;
@@ -484,7 +483,7 @@ body {
     top: 40px;
     left: 20px;
 
-    z-index: 1;
+    z-index: -1;
 
     display: none;
     flex-direction: column;
