@@ -341,13 +341,10 @@ const game = {
                 function defineDifficulty() {
                     if (settings.difficulty.this === 'easy') {
                         game.entities.player.speedLevel = 10
-                        settings.appliedsSettings.setContainerAppliedsSettings(game.settings.appliedsSettings.popUps.showDifficulty, '#3cfd93', 'Easy')
                     } else if (settings.difficulty.this === 'normal') {
                         game.entities.player.speedLevel = 7.5
-                        settings.appliedsSettings.setContainerAppliedsSettings(game.settings.appliedsSettings.popUps.showDifficulty, '#ffeb33', 'Normal')
                     } else if (settings.difficulty.this === 'hard') {
                         game.entities.player.speedLevel = 6.5
-                        settings.appliedsSettings.setContainerAppliedsSettings(game.settings.appliedsSettings.popUps.showDifficulty, '#f36565', 'Hard')
                     }
                 }
                               
@@ -373,11 +370,9 @@ const game = {
                     if (settings.gameMode.buttons.optionWallsDontCollide.checked) {
                         game.entities.box.collision = false
                         settings.gameMode.this = 'walls-dont-collide'
-                        settings.appliedsSettings.setContainerAppliedsSettings(game.settings.appliedsSettings.popUps.showGameMode, '#f36565', 'Walls dont collide')
                     } else if (settings.gameMode.buttons.optionWallsCollide.checked) {
                         game.entities.box.collision = true
                         settings.gameMode.this = 'walls-collide'
-                        settings.appliedsSettings.setContainerAppliedsSettings(game.settings.appliedsSettings.popUps.showGameMode, '#3cfd93', 'Walls collide')
                     }
                 }
 
@@ -387,24 +382,6 @@ const game = {
                         defineGameMode()
                     })
                 })
-            }
-        },
-
-        appliedsSettings: {
-            popUps: {
-                showAppliedsSettingsContainer: document.querySelector('.show-applieds-settings-container'),
-                showDifficulty: document.querySelector('.show-difficulty'),
-                showGameMode: document.querySelector('.show-game-mode')
-            },
-
-            setContainerAppliedsSettings: (container, color, text) => {
-                container.style.color = color
-                container.style.borderColor = color
-                container.innerHTML = text
-            },
-
-            showAppliedsSettings: () => {
-                game.settings.appliedsSettings.popUps.showAppliedsSettingsContainer.style.display = 'flex'
             }
         },
 
@@ -419,7 +396,6 @@ const game = {
         start: () => {
             document.querySelector('.settings-container').style.display = 'none'
             document.querySelector('.game-start-container').style.display = 'flex'
-            game.settings.appliedsSettings.showAppliedsSettings()
             const starting = setInterval(() => {
                 if (game.entities.player.head.direction !== '') {
                     document.querySelector('.game-start-container').style.display = 'none'
