@@ -13,4 +13,4 @@
 <h2 align="center">Clone Project</h2>
 
 <h2 align="center">License</h2>
-<p align="center">MIT License &nbsp;&bull;&nbsp; &copy; FelipePDS</p>
+<p align="center"><a href="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/LICENSE">MIT License</a> &nbsp;&bull;&nbsp; &copy; FelipePDS</p>
