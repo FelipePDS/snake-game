@@ -6,9 +6,9 @@
 
 <h2 align="center">Summary</h2>
 <p align="center">
-  <a href="#the-game">The Game</a> &nbsp; 
-  <a href="#development-project">Development Project</a> &nbsp; 
-  <a href="#clone-project">Clone Project</a> &nbsp; 
+  <a href="#the-game">The Game</a> &bull; 
+  <a href="#development-project">Development Project</a> &bull; 
+  <a href="#clone-project">Clone Project</a> &bull; 
   <a href="#license">License</a>
 </p>
 
