@@ -21,7 +21,8 @@ const themes = {
             colorItemActived: '#ffeb33',
             colorItemDesactived: '#c7c7d3',
             colorInputBackground: '#30303f',
-            colorScrollBar: '#2f2f3f'
+            colorScrollBar: '#2f2f3f',
+            colorBackgroundPopUp: '#ffffff'
         },
     
         dark: {
@@ -45,7 +46,8 @@ const themes = {
             colorItemActived: '#ffeb33',
             colorItemDesactived: '#c7c7d3',
             colorInputBackground: '#30303f',
-            colorScrollBar: '#2f2f3f'
+            colorScrollBar: '#2f2f3f',
+            colorBackgroundPopUp: '#252533'
         }
     },
 

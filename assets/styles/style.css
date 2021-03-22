@@ -20,6 +20,8 @@ html {
     --colorItemDesactived: #c7c7d3;
     --colorInputBackground: #30303f;
     --colorScrollBar: #2f2f3f;
+    --colorBackgroundPopUp: #252533;
+    --colorText: white;
 
     /* --colorBackground: #f4f4f8;
     --colorBox: #ffffff;
@@ -41,7 +43,8 @@ html {
     --colorItemActived: #ffeb33;
     --colorItemDesactived: #c7c7d3;
     --colorInputBackground: #30303f;
-    --colorScrollBar: #2f2f3f; */
+    --colorScrollBar: #2f2f3f;
+    --colorBackgroundPopUp: #ffffff; */
 
     font-size:60%;
 }
@@ -474,6 +477,34 @@ body {
 
 .settings-container .settings-box .settings-box-footer .button-start-game:focus {
     outline: none;
+}
+
+.show-applieds-settings-container {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+
+    z-index: 1;
+
+    display: none;
+    flex-direction: column;
+}
+
+.show-applieds-settings-container .show-setting-pop-up {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px 10px;
+
+    border: 1px transparent solid;
+    border-radius: 1rem;
+
+    background-color: var(--colorBackgroundPopUp);
+}
+
+.show-applieds-settings-container .show-setting-pop-up+.show-setting-pop-up {
+    margin-top: 2rem;
 }
 
 /* GAME STATUS */
