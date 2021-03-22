@@ -14,6 +14,7 @@
 <br>
 
 <h2 align="center" id="the-game">:video_game: The Game :video_game:</h2>
+<p align="center">The game consists of the classic snake game :snake:, where the objective is to collect as much fruit :apple: as possible, increasing its tail until it collides with something that will end the game. However in this game it is possible to customize the game mode, the difficulty and the stylization.</p>
 
 <br>
 
