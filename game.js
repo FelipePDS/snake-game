@@ -1,7 +1,13 @@
 const game = {
     global: {
         box: document.querySelector('#box'),
-        context: this.box.getContext('2d')
+        context: this.box.getContext('2d'),
+
+        audios: {
+            playerUpdate: new Audio('assets/audios/player-update.mp3'),
+            gameOver: new Audio('assets/audios/game-over.mp3'),
+            gameOverContinue: new Audio('assets/audios/game-over-continue.wav')
+        }
     },
 
     status: {
@@ -208,6 +214,8 @@ const game = {
                                 }
                             })
 
+                            game.global.audios.playerUpdate.play()
+
                             player.ponctuation.show()
                         }
                     }, game.entities.player.speedLevel * 10);
@@ -248,7 +256,7 @@ const game = {
             generated: true,
 
             events: {
-                renderFood: (food) => {
+                renderFood: (food) => {                    
                     game.global.context.fillStyle = food.styles.color
                     game.global.context.fillRect(food.position.x, food.position.y, food.styles.width, food.styles.height)
                 },
@@ -260,11 +268,6 @@ const game = {
 
                         food.generated = true
 
-                        let lastPostionFood = {
-                            x: food.position.x,
-                            y: food.position.y
-                        }
-
                         let generatePositionX = Math.floor(Math.random() * game.global.box.width)
                         food.position.x = generatePositionX - (generatePositionX % game.entities.player.styles.width)
                         let generatePositionY = Math.floor(Math.random() * game.global.box.height)
@@ -273,16 +276,14 @@ const game = {
                         game.entities.player.tail.trail.forEach(trail => {
                             if (food.position.x === trail.position.x && food.position.y === trail.position.y) {
                                 food.generated = false
-                            } else if (food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
-                                food.generated = false
                             }
                         })
-                        if (food.position.x === lastPostionFood.x && food.position.y === lastPostionFood.y) {
+                        if (food.position.x === game.entities.player.head.position.x && food.position.y === game.entities.player.head.position.y) {
                             food.generated = false
                         }
                         
                         if (food.generated) { food.events.renderFood(food) }
-                    });
+                    })
                 }
             }
         }
@@ -384,10 +385,10 @@ const game = {
         start: () => {
             document.querySelector('.settings-container').style.display = 'none'
             document.querySelector('.game-start-container').style.display = 'flex'
-            setInterval(() => {
+            const starting = setInterval(() => {
                 if (game.entities.player.head.direction !== '') {
                     document.querySelector('.game-start-container').style.display = 'none'
-                    clearInterval()
+                    clearInterval(starting)
                 }
             }, 100);
 
@@ -400,6 +401,11 @@ const game = {
                     if ((playerX === entityPositionX && playerY === entityPositionY && object === 'tail') || ((playerX === entityPositionX || playerX === entity2PositionX || playerY === entityPositionY || playerY === entity2PositionY) && object === 'walls')) {
                         game.status.gameOver = true
                         game.status.run = false
+
+                        game.global.audios.gameOver.play()
+                        setTimeout(() => {
+                            game.global.audios.gameOverContinue.play()
+                        }, game.global.audios.gameOver.duration);
 
                         document.querySelector('.game-over-container').style.display = 'flex'
                     }
@@ -441,7 +447,7 @@ document.querySelector('.button-start-game').addEventListener('click', () => {
 
     const player = game.entities.player
     player.events.renderPlayer(player)
-    player.events.movePlayer(player)
+    player.events.movePlayer(player)    
     player.events.crawl(player)
     player.events.eat(player, game.entities.food)
 
