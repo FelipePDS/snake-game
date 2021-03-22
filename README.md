@@ -27,7 +27,7 @@
 
 ``` bash
 # Clone the project
-$ git clone
+$ git clone https://github.com/FelipePDS/Snake-Game.github.io.git
 
 # Open project
 $ cd Snake-Game.github.io
