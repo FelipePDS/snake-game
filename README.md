@@ -1,6 +1,6 @@
 # <h1 align="center">Snake Game</h1>
 
-<p align="center"><img border-radius=50% src="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/assets/git/preview-game.gif" alt="Snake Game"/></p>
+<p align="center"><img width="50%" src="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/assets/git/preview-game.gif" alt="Snake Game"/></p>
 
 <blockquote>:construction: under development :construction:</blockquote>
 
