@@ -6,7 +6,7 @@
 
 <h2 align="center">Summary</h2>
 
-<h2 align="center">The Game</h2>
+<h2 align="center">:video_game: The Game :video_game:</h2>
 
 <h2 align="center">Development Project</h2>
 
