@@ -45,7 +45,7 @@ const game = {
     
     events: {
     
-    },
+    }
 }
 ```
 
