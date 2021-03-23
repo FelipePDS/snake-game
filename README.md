@@ -19,6 +19,35 @@
 <br>
 
 <h2 align="center" id="development-project">Development Project</h2>
+<p align="center">Developed with javascript, css and html, it was structured in objects, where some values vary their state, or the user can change it in the settings. <br> Its structure (in which the game is formed) was briefly as follows:</p>
+
+``` javascript
+const game = {
+    global: {
+        
+    },
+    
+    status: {
+    
+    },
+    
+    entities: {
+    
+    },
+    
+    commands: {
+    
+    },
+    
+    settings: {
+    
+    },
+    
+    events: {
+    
+    },
+}
+```
 
 <br>
 
