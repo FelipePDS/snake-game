@@ -58,10 +58,10 @@ const game = {
 
 ``` bash
 # Clone the project
-$ git clone https://github.com/FelipePDS/Snake-Game.github.io.git
+$ git clone https://github.com/FelipePDS/Snake-Game.git
 
 # Open project
-$ cd Snake-Game.github.io
+$ cd Snake-Game
 ```
 
 <br>
