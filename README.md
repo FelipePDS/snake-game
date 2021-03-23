@@ -49,6 +49,8 @@ const game = {
 }
 ```
 
+<p align="center">Check the <a href="">code</a></p>
+
 <br>
 
 <h2 align="center" id="clone-project">Clone Project</h2>
