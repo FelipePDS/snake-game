@@ -49,7 +49,7 @@ const game = {
 }
 ```
 
-<p align="center">Check the <a href="">code</a></p>
+<p align="center">Check the <a href="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/game.js">code</a></p>
 
 <br>
 
