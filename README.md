@@ -1,6 +1,6 @@
 # <h1 align="center">Snake Game</h1>
 
-<p align="center"><a href="https://felipepds.github.io/Snake-Game/"><img src="https://img.shields.io/static/v1?label=+&message=Snake+Game&color=3cfd93&style=flat&logo=+"/></a> <img src="https://img.shields.io/github/stars/FelipePDS/Snake-Game"/> <a href="github.com/FelipePDS/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/FelipePDS/Snake-Game"/></a></p>
+<p align="center"><a href="https://felipepds.github.io/Snake-Game/"><img src="https://img.shields.io/static/v1?label=+&message=Snake+Game&color=3cfd93&style=flat&logo=+"/></a> <img src="https://img.shields.io/github/stars/FelipePDS/Snake-Game"/> <a href="https://github.com/FelipePDS/Snake-Game/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FelipePDS/Snake-Game"/></a></p>
 
 <p align="center"><img width="95%" src="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/assets/git/preview-game.gif" alt="Snake Game"/></p>
 
