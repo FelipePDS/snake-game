@@ -56,7 +56,7 @@ const game = {
 <br>
 
 <h2 align="center" id="clone-project">Clone Project</h2>
-<p align="center"><a href="https://git-scm.com/downloads">Download Gitbash</a> for the followings commands to clone the project</p>
+<p align="center"><kbd><a href="https://git-scm.com/downloads">Download Gitbash</a></kbd> for the followings commands to clone the project</p>
 
 ``` bash
 # Clone the project
