@@ -1,6 +1,6 @@
 # <h1 align="center">Snake Game</h1>
 
-<p align="center"><a href="https://felipepds.github.io/Snake-Game/"><img src="https://img.shields.io/static/v1?label=+&message=Snake+Game&color=3cfd93&style=flat&logo=+"/></a> <img src="https://img.shields.io/github/stars/FelipePDS/Snake-Game"/> <img src="https://img.shields.io/github/repo-size/FelipePDS/Snake-Game"/> <a href="https://github.com/FelipePDS/Snake-Game/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FelipePDS/Snake-Game"/></a> <br> <img src="https://img.shields.io/static/v1?label=+&message=HTML5&color=E34F26&style=flat-square&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-323330?style=flat-square&logo=javascript&logoColor=F7DF1E"/></p>
+<p align="center"><a href="https://felipepds.github.io/snake-game/"><img src="https://img.shields.io/static/v1?label=+&message=Snake+Game&color=3cfd93&style=flat&logo=+"/></a> <img src="https://img.shields.io/github/stars/FelipePDS/Snake-Game"/> <img src="https://img.shields.io/github/repo-size/FelipePDS/Snake-Game"/> <a href="https://github.com/FelipePDS/Snake-Game/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FelipePDS/Snake-Game"/></a> <br> <img src="https://img.shields.io/static/v1?label=+&message=HTML5&color=E34F26&style=flat-square&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-323330?style=flat-square&logo=javascript&logoColor=F7DF1E"/></p>
 
 <p align="center"><img width="95%" src="https://github.com/FelipePDS/Snake-Game.github.io/blob/master/assets/git/preview-game.gif" alt="Snake Game"/></p>
 
@@ -16,7 +16,7 @@
 <br>
 
 <h2 align="center" id="the-game">:video_game: The Game :video_game:</h2>
-<p align="center">The <a href="https://felipepds.github.io/Snake-Game">game</a> consists of the classic snake game :snake:, where the objective is to collect as much fruit :apple: as possible, increasing its tail until it collides with something that will end the game. However in this game it is possible to customize the game mode, the difficulty and the stylization.</p>
+<p align="center">The <a href="https://felipepds.github.io/snake-game">game</a> consists of the classic snake game :snake:, where the objective is to collect as much fruit :apple: as possible, increasing its tail until it collides with something that will end the game. However in this game it is possible to customize the game mode, the difficulty and the stylization.</p>
 
 <br>
 
@@ -60,10 +60,10 @@ const game = {
 
 ``` bash
 # Clone the project
-$ git clone https://github.com/FelipePDS/Snake-Game.git
+$ git clone https://github.com/FelipePDS/snake-game.git
 
 # Open project
-$ cd Snake-Game
+$ cd snake-game
 ```
 
 <br>
